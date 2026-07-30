@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>琪琪 · IP视觉资产馆</title>
+  <style>
+    :root {
+      --paper: #f8f5ee;
+      --paper-strong: #fffdf8;
+      --ink: #202838;
+      --muted: #6d7482;
+      --blue: #075d96;
+      --blue-soft: #dff4ff;
+      --red: #e52938;
+      --yellow: #f5cb32;
+      --mint: #bfe4d8;
+      --pink: #f2b7c8;
+      --violet: #7e86c9;
+      --line: rgba(32, 40, 56, .11);
+      --shadow: 0 18px 55px rgba(61, 72, 99, .14);
+      --radius: 26px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 4%, rgba(191, 228, 216, .62), transparent 29rem),
+        radial-gradient(circle at 92% 8%, rgba(242, 183, 200, .48), transparent 26rem),
+        linear-gradient(180deg, #fdfbf6 0%, var(--paper) 100%);
+      font-family: "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    button, input { font: inherit; }
+    button { color: inherit; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    .shell { width: min(1380px, calc(100% - 36px)); margin: 0 auto; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 760px;
+      padding: 34px 0 72px;
+      background:
+        linear-gradient(90deg, rgba(11, 37, 65, .94) 0%, rgba(11, 37, 65, .78) 43%, rgba(11, 37, 65, .14) 72%, rgba(11, 37, 65, .02) 100%),
+        url("qiqi-key-visual-wish-bubble-station-v1.jpg") center 42% / cover no-repeat;
+      color: white;
+      border-radius: 0 0 48px 48px;
+      box-shadow: 0 24px 70px rgba(21, 42, 69, .24);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 60%, rgba(9, 30, 55, .38));
+    }
+
+    .hero-inner { position: relative; z-index: 1; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 118px;
+    }
+
+    .brand-lockup { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .08em; }
+    .brand-dot {
+      width: 36px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), #ff7280);
+      border: 6px solid rgba(255,255,255,.9);
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
+    }
+
+    .toplinks { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .toplinks a {
+      text-decoration: none;
+      padding: 8px 13px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      background: rgba(255,255,255,.11);
+      backdrop-filter: blur(8px);
+      font-size: 13px;
+    }
+
+    .hero-copy { width: min(680px, 92%); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.25);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .hero h1 { margin: 22px 0 4px; font-size: clamp(72px, 10vw, 142px); line-height: .92; letter-spacing: -.07em; }
+    .hero h1 span { color: var(--yellow); }
+    .hero-lead { margin: 20px 0 0; max-width: 610px; font-size: clamp(18px, 2vw, 26px); color: rgba(255,255,255,.92); }
+    .hero-note { margin-top: 14px; color: rgba(255,255,255,.7); font-size: 14px; }
+
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .stat {
+      min-width: 130px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.24);
+      backdrop-filter: blur(10px);
+    }
+    .stat strong { display: block; font-size: 26px; line-height: 1.1; }
+    .stat span { font-size: 12px; color: rgba(255,255,255,.72); }
+
+    .toolbar-wrap { position: sticky; top: 0; z-index: 20; padding: 14px 0; }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,.62);
+      border-radius: 22px;
+      background: rgba(255,253,248,.86);
+      box-shadow: 0 12px 35px rgba(62, 72, 91, .12);
+      backdrop-filter: blur(18px);
+      scrollbar-width: none;
+    }
+    .toolbar::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      flex: 0 0 auto;
+      border: 0;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 750;
+      transition: .2s ease;
+    }
+    .filter-btn:hover { background: var(--blue-soft); }
+    .filter-btn.is-active { background: var(--blue); color: white; box-shadow: 0 7px 18px rgba(7,93,150,.26); }
+    .visible-count { margin-left: auto; padding: 0 10px; white-space: nowrap; color: var(--muted); font-size: 12px; }
+
+    main { padding: 34px 0 90px; }
+    .gallery-section { padding: 64px 0 8px; scroll-margin-top: 88px; }
+    .gallery-section[hidden] { display: none; }
+    .section-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, 520px); gap: 34px; align-items: end; margin-bottom: 26px; }
+    .section-kicker { color: var(--red); font-weight: 850; letter-spacing: .1em; font-size: 12px; text-transform: uppercase; }
+    .section-head h2 { margin: 5px 0 0; font-size: clamp(34px, 5vw, 62px); line-height: 1.06; letter-spacing: -.05em; }
+    .section-head p { margin: 0; color: var(--muted); }
+
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 22px; }
+    .asset-card {
+      grid-column: span 4;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.86);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.75);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+    .asset-card.wide { grid-column: span 8; }
+    .asset-card.full { grid-column: 1 / -1; }
+    .asset-card.tall { grid-column: span 4; }
+
+    .media-button {
+      position: relative;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: #eef3f5;
+      cursor: zoom-in;
+      overflow: hidden;
+    }
+    .media-button::after {
+      content: "点击查看原图";
+      position: absolute;
+      right: 13px;
+      bottom: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(15, 28, 45, .66);
+      opacity: 0;
+      transform: translateY(5px);
+      transition: .2s ease;
+      font-size: 11px;
+      backdrop-filter: blur(8px);
+    }
+    .media-button:hover::after, .media-button:focus-visible::after { opacity: 1; transform: translateY(0); }
+    .media-button img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+    .media-button:hover img { transform: scale(1.02); }
+    .media-square { aspect-ratio: 1; }
+    .media-landscape { aspect-ratio: 16 / 9; }
+    .media-portrait { aspect-ratio: 4 / 5; }
+    .media-contain img { object-fit: contain; background: linear-gradient(135deg, #f7fbfd, #fffaf3); }
+
+    .card-body { padding: 20px 21px 22px; }
+    .card-topline { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .pill { display: inline-flex; padding: 5px 9px; border-radius: 999px; background: var(--blue-soft); color: var(--blue); font-weight: 800; font-size: 11px; }
+    .pill.red { background: #ffe5e8; color: #ba1b2a; }
+    .pill.yellow { background: #fff4bd; color: #725900; }
+    .pill.gray { background: #eceef2; color: #555f6e; }
+    .status { color: #378365; font-size: 11px; font-weight: 800; }
+    .card-body h3 { margin: 10px 0 5px; font-size: 22px; line-height: 1.25; }
+    .card-body p { margin: 0; color: var(--muted); font-size: 14px; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 15px; }
+    .meta-row span { padding: 4px 8px; border-radius: 8px; background: rgba(32,40,56,.055); color: #646d7b; font-size: 10px; }
+    .fileline { margin-top: 13px; padding-top: 12px; border-top: 1px solid var(--line); color: #7a8190; font: 11px/1.45 Consolas, monospace; overflow-wrap: anywhere; }
+    .fileline a { text-decoration: none; }
+    .fileline a:hover { color: var(--blue); text-decoration: underline; }
+
+    .identity-panel {
+      grid-column: span 4;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+      padding: 28px;
+      border-radius: var(--radius);
+      color: white;
+      background:
+        radial-gradient(circle at 82% 10%, rgba(245,203,50,.42), transparent 13rem),
+        linear-gradient(145deg, #0d659e, #123e6b 70%);
+      box-shadow: var(--shadow);
+    }
+    .identity-panel h3 { margin: 10px 0 12px; font-size: 32px; line-height: 1.15; }
+    .identity-list { display: grid; gap: 10px; margin: 20px 0 0; padding: 0; list-style: none; }
+    .identity-list li { display: flex; gap: 10px; color: rgba(255,255,255,.82); font-size: 13px; }
+    .identity-list li::before { content: "●"; color: var(--yellow); font-size: 9px; transform: translateY(4px); }
+    .swatches { display: flex; gap: 10px; margin-top: 26px; }
+    .swatch { width: 42px; aspect-ratio: 1; border-radius: 13px; border: 2px solid rgba(255,255,255,.66); box-shadow: 0 7px 16px rgba(0,0,0,.15); }
+
+    .emotion-grid, .pose-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+    .emotion-card, .pose-card {
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(255,255,255,.9);
+      box-shadow: 0 12px 30px rgba(62,72,91,.1);
+    }
+    .crop-frame { position: relative; overflow: hidden; width: 100%; background: #f5f7f8; }
+    .crop-frame.expression { aspect-ratio: 2 / 3; }
+    .crop-frame.pose { aspect-ratio: 1; }
+    .crop-frame img {
+      position: absolute;
+      max-width: none;
+      left: calc(var(--col) * -100%);
+      top: calc(var(--row) * -100%);
+    }
+    .crop-frame.expression img { width: 300%; height: 200%; }
+    .crop-frame.pose img { width: 300%; height: 200%; }
+    .named-caption { padding: 14px 12px 15px; text-align: center; }
+    .named-caption strong { display: block; font-size: 15px; }
+    .named-caption span { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+
+    .world-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .world-chip { padding: 17px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.58); }
+    .world-chip strong { display: block; margin-bottom: 3px; }
+    .world-chip span { color: var(--muted); font-size: 12px; }
+
+    .index-box { overflow: hidden; border-radius: var(--radius); border: 1px solid rgba(255,255,255,.9); background: rgba(255,255,255,.74); box-shadow: var(--shadow); }
+    .index-box details { padding: 0; }
+    .index-box summary { cursor: pointer; padding: 20px 24px; font-weight: 850; list-style: none; }
+    .index-box summary::-webkit-details-marker { display: none; }
+    .index-box summary::after { content: "+"; float: right; color: var(--blue); font-size: 24px; line-height: 1; }
+    .index-box details[open] summary::after { content: "−"; }
+    .table-wrap { overflow-x: auto; border-top: 1px solid var(--line); }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; font-size: 12px; }
+    th, td { padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); background: rgba(32,40,56,.035); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+    td code { font-size: 10px; color: #657080; }
+    td a { color: var(--blue); text-decoration: none; }
+    td a:hover { text-decoration: underline; }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 52px;
+      padding: 24px 0 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      background: rgba(8, 16, 29, .93);
+      color: white;
+      backdrop-filter: blur(14px);
+    }
+    .lightbox[hidden] { display: none; }
+    .lightbox-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; }
+    .lightbox-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 800; }
+    .lightbox-actions { display: flex; gap: 8px; flex: 0 0 auto; }
+    .icon-btn, .open-original {
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+    .lightbox-stage { position: relative; display: grid; place-items: center; overflow: hidden; touch-action: none; }
+    .lightbox-stage img { max-width: 92vw; max-height: 78vh; object-fit: contain; transform-origin: center; will-change: transform; user-select: none; -webkit-user-drag: none; }
+    .nav-btn { position: absolute; top: 50%; z-index: 2; width: 46px; aspect-ratio: 1; transform: translateY(-50%); border: 1px solid rgba(255,255,255,.2); border-radius: 50%; background: rgba(9,18,31,.62); color: white; cursor: pointer; font-size: 28px; }
+    .nav-btn.prev { left: 18px; }
+    .nav-btn.next { right: 18px; }
+    .lightbox-help { padding: 10px 18px 17px; text-align: center; color: rgba(255,255,255,.58); font-size: 11px; }
+
+    .to-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 30;
+      width: 46px;
+      aspect-ratio: 1;
+      border: 0;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 10px 28px rgba(7,93,150,.3);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: .2s ease;
+    }
+    .to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+    @media (max-width: 1040px) {
+      .asset-card, .asset-card.tall { grid-column: span 6; }
+      .asset-card.wide { grid-column: 1 / -1; }
+      .identity-panel { grid-column: span 6; }
+      .emotion-grid, .pose-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 22px, 1380px); }
+      .hero { min-height: 700px; border-radius: 0 0 30px 30px; background-position: 60% center; }
+      .hero::before { content: ""; position: absolute; inset: 0; background: rgba(5,26,49,.18); }
+      .topbar { margin-bottom: 100px; }
+      .toplinks { display: none; }
+      .hero-copy { width: 100%; }
+      .section-head { grid-template-columns: 1fr; gap: 10px; }
+      .gallery-section { padding-top: 44px; }
+      .asset-card, .asset-card.tall, .identity-panel { grid-column: 1 / -1; }
+      .emotion-grid, .pose-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .world-strip { grid-template-columns: 1fr; }
+      .visible-count { display: none; }
+      .footer { flex-direction: column; }
+      .nav-btn { width: 40px; }
+      .nav-btn.prev { left: 8px; }
+      .nav-btn.next { right: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="shell hero-inner">
+      <div class="topbar">
+        <div class="brand-lockup"><span class="brand-dot"></span><span>QIQI IP ARCHIVE</span></div>
+        <nav class="toplinks" aria-label="页面导航">
+          <a href="#master">角色母版</a>
+          <a href="#expressions">表情包</a>
+          <a href="#scenes">泡泡世界</a>
+          <a href="#animation">动态贴纸</a>
+        </nav>
+      </div>
+      <div class="hero-copy">
+        <div class="eyebrow">琪琪 · 心愿泡泡修补员</div>
+        <h1>琪<span>琪</span></h1>
+        <p class="hero-lead">把每一种没说出口的小情绪，装进发光泡泡，修好，再送回需要它的人身边。</p>
+        <p class="hero-note">单页离线视觉资产馆 · 当前正式母版 v3 · 更新于 2026-07-29</p>
+        <div class="stats">
+          <div class="stat"><strong>17</strong><span>图片与GIF资产</span></div>
+          <div class="stat"><strong>6+1</strong><span>静态表情 + 动态表情</span></div>
+          <div class="stat"><strong>4</strong><span>世界观主视觉与场景</span></div>
+          <div class="stat"><strong>v3</strong><span>当前身份与材质母版</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell toolbar-wrap" aria-label="资产筛选">
+    <div class="toolbar">
+      <button class="filter-btn is-active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="master">母版</button>
+      <button class="filter-btn" data-filter="scene">主视觉与场景</button>
+      <button class="filter-btn" data-filter="expression">表情包</button>
+      <button class="filter-btn" data-filter="pose">动作 Pose</button>
+      <button class="filter-btn" data-filter="turnaround">360°与细节</button>
+      <button class="filter-btn" data-filter="animation">动态贴纸</button>
+      <button class="filter-btn" data-filter="analysis">灵感分析</button>
+      <button class="filter-btn" data-filter="archive">迭代档案</button>
+      <span class="visible-count" id="visibleCount">显示全部 8 个栏目</span>
+    </div>
+  </div>
+
+  <main class="shell">
+    <section class="gallery-section" id="master" data-category="master">
+      <div class="section-head">
+        <div><div class="section-kicker">01 / Character Master</div><h2>当前角色母版</h2></div>
+        <p>所有后续漫画、包装、公司IP、表情与场景均以 v3 母版为唯一身份和材质基准。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card wide">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-master-v3-approved.jpg" data-title="琪琪 · v3正式母版">
+            <img src="qiqi-master-v3-approved.jpg" alt="琪琪v3正式母版" loading="eager">
+          </button>
+          <div class="card-body">
+            <div class="card-topline"><span class="pill">正式母版</span><span class="status">ACCEPTED</span></div>
+            <h3>琪琪 · 潮玩角色母版 v3</h3>
+            <p>暖象牙搪胶脸、深棕透明树脂眼、微绒猫耳帽兜、蓝黄服装与短圆大头比例。</p>
+            <div class="meta-row"><span>2048 × 2048</span><span>正面全身</span><span>角色身份基准</span></div>
+            <div class="fileline"><a href="qiqi-master-v3-approved.jpg" target="_blank">qiqi-master-v3-approved.jpg</a></div>
+          </div>
+        </article>
+        <aside class="identity-panel">
+          <div>
+            <div class="section-kicker" style="color:#f5cb32">IDENTITY LOCK</div>
+            <h3>一眼认出琪琪的 7 个锚点</h3>
+            <ul class="identity-list">
+              <li>短圆大头脸与超大深棕树脂眼</li>
+              <li>深棕中分长发，发际线与发片长度固定</li>
+              <li>白色微绒猫耳帽兜自然贴合人脸</li>
+              <li>画面右上固定红色三瓣蝴蝶结</li>
+              <li>左右各三根短胡须，不能增减</li>
+              <li>蓝色背带裤、两颗白扣、黄色内搭</li>
+              <li>高端盲盒手办的搪胶、树脂、微绒与PVC层次</li>
+            </ul>
+          </div>
+          <div class="swatches" aria-label="琪琪标准色">
+            <span class="swatch" title="暖象牙白 #F7F4EC" style="background:#f7f4ec"></span>
+            <span class="swatch" title="琪琪深蓝 #075D96" style="background:#075d96"></span>
+            <span class="swatch" title="信标红 #E52938" style="background:#e52938"></span>
+            <span class="swatch" title="奶油黄 #F5CB32" style="background:#f5cb32"></span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="scenes" data-category="scene">
+      <div class="section-head">
+        <div><div class="section-kicker">02 / Bubble World</div><h2>主视觉与泡泡世界</h2></div>
+        <p>从品牌首屏到企业创新、情绪疗愈与包装故事，场景只改变环境、动作和镜头，不改变琪琪的身份锚点。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card tall">
+          <button class="media-button media-portrait js-lightbox" data-src="qiqi-key-visual-wish-bubble-station-v1.jpg" data-title="琪琪 · 心愿泡泡总站">
+            <img src="qiqi-key-visual-wish-bubble-station-v1.jpg" alt="琪琪心愿泡泡总站主视觉" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">品牌主视觉</span><span class="status">ACCEPTED</span></div><h3>心愿泡泡总站</h3><p>琪琪手捧微缩心愿泡泡，泡泡拱门、云路与列车共同建立世界入口。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>官网 / 包装 / 海报</span></div><div class="fileline"><a href="qiqi-key-visual-wish-bubble-station-v1.jpg" target="_blank">qiqi-key-visual-wish-bubble-station-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card wide">
+          <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-moon-repair-v1.jpg" data-title="琪琪 · 月光修补师">
+            <img src="qiqi-scene-moon-repair-v1.jpg" alt="琪琪修补月亮场景" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill yellow">叙事场景</span><span class="status">ACCEPTED</span></div><h3>月光修补师</h3><p>琪琪用发光工具修补裂开的弯月，表达“让每一种小情绪被看见”的角色使命。</p><div class="meta-row"><span>2496 × 1664</span><span>3:2横版</span><span>漫画封面 / 节日礼盒</span></div><div class="fileline"><a href="qiqi-scene-moon-repair-v1.jpg" target="_blank">qiqi-scene-moon-repair-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card wide">
+          <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-inspiration-lab-v1.jpg" data-title="琪琪 · 灵感泡泡实验室">
+            <img src="qiqi-scene-inspiration-lab-v1.jpg" alt="琪琪灵感泡泡实验室场景" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill">企业应用</span><span class="status">ACCEPTED</span></div><h3>灵感泡泡实验室</h3><p>玻璃穹顶与薄荷设备延续世界材质，右侧保留大面积公司文案安全区。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9横版</span><span>创新 / 招聘 / 企业文化</span></div><div class="fileline"><a href="qiqi-scene-inspiration-lab-v1.jpg" target="_blank">qiqi-scene-inspiration-lab-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card tall">
+          <button class="media-button media-portrait js-lightbox" data-src="qiqi-scene-midnight-supply-shop-v1.jpg" data-title="琪琪 · 午夜心情补给铺">
+            <img src="qiqi-scene-midnight-supply-shop-v1.jpg" alt="琪琪午夜心情补给铺场景" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">生活场景</span><span class="status">ACCEPTED</span></div><h3>午夜心情补给铺</h3><p>雨夜小店里，琪琪递出一颗暖光心愿泡泡，适合治愈社交内容与包装背面故事。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>社交 / 零售 / 陈列</span></div><div class="fileline"><a href="qiqi-scene-midnight-supply-shop-v1.jpg" target="_blank">qiqi-scene-midnight-supply-shop-v1.jpg</a></div></div>
+        </article>
+      </div>
+      <div class="world-strip">
+        <div class="world-chip"><strong>心愿泡泡</strong><span>收纳未说出口的小情绪，也是包装开窗与产品承载容器。</span></div>
+        <div class="world-chip"><strong>蝴蝶结信标</strong><span>产生柔和信标光，但颜色、三瓣造型与物理侧向永远不变。</span></div>
+        <div class="world-chip"><strong>蓝色云路</strong><span>连接总站、工坊、实验室、补给铺与现实城市的圆弧光轨。</span></div>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="expressions" data-category="expression">
+      <div class="section-head">
+        <div><div class="section-kicker">03 / Expressions</div><h2>琪琪表情包</h2></div>
+        <p>六个静态表情按上排左→右、下排左→右命名。名称在页面中始终显示，方便后续导出为独立表情包。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card full">
+          <button class="media-button media-square media-contain js-lightbox" data-src="hello-kitty-suit-expression-sheet-v1.jpg" data-title="琪琪 · 六宫格表情母图">
+            <img src="hello-kitty-suit-expression-sheet-v1.jpg" alt="琪琪六宫格表情母图" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">表情母图</span><span class="status">ACCEPTED</span></div><h3>琪琪 · 六宫格静态表情集</h3><p>脸型、发型、蝴蝶结、六根胡须与蓝黄服装保持一致，仅改变眼睑、眉毛、嘴形和手势。</p><div class="meta-row"><span>2048 × 2048</span><span>6个表情</span><span>白底表情设定</span></div><div class="fileline"><a href="hello-kitty-suit-expression-sheet-v1.jpg" target="_blank">hello-kitty-suit-expression-sheet-v1.jpg</a></div></div>
+        </article>
+      </div>
+      <div class="emotion-grid" aria-label="琪琪六个表情名称">
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:0;--row:0" alt="琪琪元气问候"></div><div class="named-caption"><strong>01 元气问候</strong><span>挥手 · 闭眼微笑</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:1;--row:0" alt="琪琪小小期待"></div><div class="named-caption"><strong>02 小小期待</strong><span>双手靠近 · 眼神期待</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:2;--row:0" alt="琪琪开怀大笑"></div><div class="named-caption"><strong>03 开怀大笑</strong><span>开心 · 张嘴大笑</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:0;--row:1" alt="琪琪吓一跳"></div><div class="named-caption"><strong>04 吓一跳</strong><span>圆嘴 · 双手举起</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:1;--row:1" alt="琪琪委屈落泪"></div><div class="named-caption"><strong>05 委屈落泪</strong><span>泪眼 · 低落</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:2;--row:1" alt="琪琪气鼓鼓"></div><div class="named-caption"><strong>06 气鼓鼓</strong><span>皱眉 · 双手叉腰</span></div></article>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="poses" data-category="pose">
+      <div class="section-head">
+        <div><div class="section-kicker">04 / Pose Language</div><h2>动作 Pose 集</h2></div>
+        <p>六个动作覆盖日常站姿、社交欢迎、公司讲解、庆祝、礼貌致意与鼓励反馈。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-pose-sheet-v1.png" data-title="琪琪 · 六宫格动作Pose集">
+            <img src="hello-kitty-suit-pose-sheet-v1.png" alt="琪琪六宫格动作Pose集" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill">动作母图</span><span class="status">ACCEPTED</span></div><h3>琪琪 · 六宫格动作 Pose 集</h3><p>动作轮廓清楚，适合包装角标、公司IP页面、活动物料和社交贴纸。</p><div class="meta-row"><span>1536 × 1024</span><span>6个动作</span><span>高清PNG</span></div><div class="fileline"><a href="hello-kitty-suit-pose-sheet-v1.png" target="_blank">hello-kitty-suit-pose-sheet-v1.png</a></div></div>
+        </article>
+      </div>
+      <div class="pose-grid" aria-label="琪琪六个动作名称">
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:0;--row:0" alt="琪琪标准站立"></div><div class="named-caption"><strong>01 标准站立</strong><span>头像 / 基础展示</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:1;--row:0" alt="琪琪友好挥手"></div><div class="named-caption"><strong>02 友好挥手</strong><span>欢迎 / 问候</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:2;--row:0" alt="琪琪讲解指引"></div><div class="named-caption"><strong>03 讲解指引</strong><span>客服 / 企业讲解</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:0;--row:1" alt="琪琪开心庆祝"></div><div class="named-caption"><strong>04 开心庆祝</strong><span>活动 / 达成</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:1;--row:1" alt="琪琪礼貌致意"></div><div class="named-caption"><strong>05 礼貌致意</strong><span>感谢 / 致歉</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:2;--row:1" alt="琪琪鼓励点赞"></div><div class="named-caption"><strong>06 鼓励点赞</strong><span>认可 / 反馈</span></div></article>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="turnaround" data-category="turnaround">
+      <div class="section-head">
+        <div><div class="section-kicker">05 / Model Sheet</div><h2>360°结构与角色案板</h2></div>
+        <p>五视图确保帽兜、长发、蝴蝶结、背带裤和身体结构能够在不同角度中物理连贯。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-turnaround-detail-v1.jpg" data-title="琪琪 · 360°结构与细节">
+            <img src="hello-kitty-suit-turnaround-detail-v1.jpg" alt="琪琪360度结构与细节图" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill yellow">360°设定</span><span class="status">ACCEPTED</span></div><h3>五视图与三组材质细节</h3><p>正面、三分之四、侧面、后侧与背面，并包含脸部、蝴蝶结和服装分件特写。</p><div class="meta-row"><span>2816 × 1584</span><span>五视图</span><span>结构 / 材质 / 生产参考</span></div><div class="fileline"><a href="hello-kitty-suit-turnaround-detail-v1.jpg" target="_blank">hello-kitty-suit-turnaround-detail-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-ip-board-v1.jpg" data-title="琪琪 · IP角色系统总案板">
+            <img src="hello-kitty-suit-ip-board-v1.jpg" alt="琪琪IP角色系统总案板" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill">综合案板</span><span class="status">ACCEPTED</span></div><h3>琪琪 · IP角色系统总案板</h3><p>母版、表情、动作、环视、细节和四色板整合在一张横版设计提案中。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9案板</span><span>提案 / 角色规范</span></div><div class="fileline"><a href="hello-kitty-suit-ip-board-v1.jpg" target="_blank">hello-kitty-suit-ip-board-v1.jpg</a></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="animation" data-category="animation">
+      <div class="section-head">
+        <div><div class="section-kicker">06 / Motion Sticker</div><h2>动态表情包</h2></div>
+        <p>动态表情名称：<strong>挥手跳跃</strong>。琪琪原地上下跳跃，同时双臂向上挥舞；1.1秒，无限循环。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card">
+            <button class="media-button media-square media-contain js-lightbox" data-src="qiqi-wave-jump-sticker-v1.gif" data-title="动态表情：挥手跳跃（轻量版）">
+              <img src="qiqi-wave-jump-sticker-v1.gif" alt="琪琪挥手跳跃动态表情轻量版" loading="lazy">
+          </button>
+            <div class="card-body"><div class="card-topline"><span class="pill red">动态表情</span><span class="status">LOOP</span></div><h3>挥手跳跃 · 轻量版</h3><p>适合聊天直接发送，保留淡粉蓝背景与8帧关键动作。</p><div class="meta-row"><span>512 × 512</span><span>8帧</span><span>1.1秒</span><span>0.91MB</span></div><div class="fileline"><a href="qiqi-wave-jump-sticker-v1.gif" target="_blank">qiqi-wave-jump-sticker-v1.gif</a></div></div>
+        </article>
+        <article class="asset-card">
+            <button class="media-button media-square media-contain js-lightbox" data-src="qiqi-wave-jump-sticker-hq-v1.gif" data-title="动态表情：挥手跳跃（高清版）">
+              <img src="qiqi-wave-jump-sticker-hq-v1.gif" alt="琪琪挥手跳跃动态表情高清版" loading="lazy">
+          </button>
+            <div class="card-body"><div class="card-topline"><span class="pill red">动态表情</span><span class="status">LOOP</span></div><h3>挥手跳跃 · 高清版</h3><p>适合演示、收藏与较大尺寸聊天窗口，动作内容与轻量版一致。</p><div class="meta-row"><span>640 × 640</span><span>8帧</span><span>1.1秒</span><span>1.52MB</span></div><div class="fileline"><a href="qiqi-wave-jump-sticker-hq-v1.gif" target="_blank">qiqi-wave-jump-sticker-hq-v1.gif</a></div></div>
+        </article>
+        <article class="asset-card wide">
+            <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-wave-jump-spritesheet-v1.jpg" data-title="挥手跳跃 · 8帧动作序列母图">
+              <img src="qiqi-wave-jump-spritesheet-v1.jpg" alt="琪琪挥手跳跃8帧动作序列图" loading="lazy">
+          </button>
+            <div class="card-body"><div class="card-topline"><span class="pill gray">动画制作资料</span><span class="status">SOURCE</span></div><h3>挥手跳跃 · 8帧动作序列母图</h3><p>站立、屈膝、起跳、腾空、挥手、下降、落地与回到起始姿势。</p><div class="meta-row"><span>3136 × 1344</span><span>4 × 2关键帧</span></div><div class="fileline"><a href="qiqi-wave-jump-spritesheet-v1.jpg" target="_blank">qiqi-wave-jump-spritesheet-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card">
+            <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-wave-jump-gif-qa-v1.jpg" data-title="挥手跳跃 · GIF质检联系表">
+              <img src="qiqi-wave-jump-gif-qa-v1.jpg" alt="琪琪挥手跳跃GIF质检联系表" loading="lazy">
+          </button>
+            <div class="card-body"><div class="card-topline"><span class="pill gray">动画QA</span><span class="status">PASS</span></div><h3>挥手跳跃 · 质检联系表</h3><p>带1–8帧编号，用于核对动作顺序、角色一致性和首尾闭环。</p><div class="meta-row"><span>1084 × 548</span><span>制作过程</span></div><div class="fileline"><a href="qiqi-wave-jump-gif-qa-v1.jpg" target="_blank">qiqi-wave-jump-gif-qa-v1.jpg</a></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="analysis" data-category="analysis">
+      <div class="section-head">
+        <div><div class="section-kicker">07 / Visual Language</div><h2>灵感与视觉语言</h2></div>
+        <p>标准角色、核心色、扩展色、材质球、泡泡与拱门母题，以及世界观微缩场景。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-inspiration-analysis-board-v1.jpg" data-title="琪琪 · 灵感与视觉语言分析板">
+            <img src="qiqi-inspiration-analysis-board-v1.jpg" alt="琪琪灵感与视觉语言分析板" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill">灵感分析</span><span class="status">ACCEPTED</span></div><h3>琪琪 · 灵感与视觉语言分析板</h3><p>月光蓝、奶油黄、珠光白、果冻粉与薄荷绿共同组成泡泡世界的扩展语汇。</p><div class="meta-row"><span>2816 × 1584</span><span>色板</span><span>材质</span><span>造型母题</span><span>场景缩略图</span></div><div class="fileline"><a href="qiqi-inspiration-analysis-board-v1.jpg" target="_blank">qiqi-inspiration-analysis-board-v1.jpg</a></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="archive" data-category="archive">
+      <div class="section-head">
+        <div><div class="section-kicker">08 / Evolution Archive</div><h2>设计迭代与内部资料</h2></div>
+        <p>保留从统一Q版潮玩到正式 v3 手办材质的演进。v3候选图与正式母版内容相同，仍作为版本档案列出。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card">
+          <button class="media-button media-square media-contain js-lightbox" data-src="hello-kitty-suit-mascot-v2.jpg" data-title="琪琪角色母版 v2 · 统一Q版">
+            <img src="hello-kitty-suit-mascot-v2.jpg" alt="琪琪角色母版v2" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill gray">历史母版</span><span class="status">ACCEPTED</span></div><h3>v2 · 统一Q版潮玩</h3><p>确立大头短身、白色猫耳帽兜、红蝴蝶结与蓝黄服装的统一角色语言。</p><div class="meta-row"><span>2048 × 2048</span><span>角色系统起点</span></div><div class="fileline"><a href="hello-kitty-suit-mascot-v2.jpg" target="_blank">hello-kitty-suit-mascot-v2.jpg</a></div></div>
+        </article>
+        <article class="asset-card">
+          <button class="media-button media-square media-contain js-lightbox" data-src="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" data-title="琪琪 v3 · 泡泡玛特质感候选">
+            <img src="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" alt="琪琪v3手办质感候选" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill gray">v3候选档案</span><span class="status">PROMOTED</span></div><h3>v3 · 手办质感候选</h3><p>材质与制造细节升级后被提升为正式母版；内容与 qiqi-master-v3-approved.jpg 相同。</p><div class="meta-row"><span>2048 × 2048</span><span>同图归档</span></div><div class="fileline"><a href="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" target="_blank">hello-kitty-suit-mascot-v3-arttoy-candidate.jpg</a></div></div>
+        </article>
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-pose-sheet-upload-ref.jpg" data-title="动作Pose集 · 上传参考压缩版">
+            <img src="hello-kitty-suit-pose-sheet-upload-ref.jpg" alt="琪琪动作Pose集上传参考压缩版" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill gray">内部参考</span><span class="status" style="color:#78818d">LOW-RES</span></div><h3>动作 Pose · 上传参考压缩版</h3><p>用于后续生成工具上传的1200×800低清参考；高清展示以PNG动作母图为准。</p><div class="meta-row"><span>1200 × 800</span><span>内部制作资料</span></div><div class="fileline"><a href="hello-kitty-suit-pose-sheet-upload-ref.jpg" target="_blank">hello-kitty-suit-pose-sheet-upload-ref.jpg</a></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="gallery-section" data-category="all">
+      <div class="section-head"><div><div class="section-kicker">Asset Index</div><h2>完整文件索引</h2></div><p>共17个纳入图册的图片/GIF文件。点击文件名可直接打开本地原图。</p></div>
+      <div class="index-box">
+        <details>
+          <summary>展开全部 17 个文件</summary>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>资产名称</th><th>文件</th><th>尺寸</th><th>分类</th></tr></thead>
+              <tbody>
+                <tr><td>01</td><td>琪琪 v3 正式母版</td><td><a href="qiqi-master-v3-approved.jpg" target="_blank"><code>qiqi-master-v3-approved.jpg</code></a></td><td>2048×2048</td><td>母版</td></tr>
+                <tr><td>02</td><td>心愿泡泡总站</td><td><a href="qiqi-key-visual-wish-bubble-station-v1.jpg" target="_blank"><code>qiqi-key-visual-wish-bubble-station-v1.jpg</code></a></td><td>1856×2320</td><td>主视觉</td></tr>
+                <tr><td>03</td><td>月光修补师</td><td><a href="qiqi-scene-moon-repair-v1.jpg" target="_blank"><code>qiqi-scene-moon-repair-v1.jpg</code></a></td><td>2496×1664</td><td>场景</td></tr>
+                <tr><td>04</td><td>灵感泡泡实验室</td><td><a href="qiqi-scene-inspiration-lab-v1.jpg" target="_blank"><code>qiqi-scene-inspiration-lab-v1.jpg</code></a></td><td>2816×1584</td><td>场景</td></tr>
+                <tr><td>05</td><td>午夜心情补给铺</td><td><a href="qiqi-scene-midnight-supply-shop-v1.jpg" target="_blank"><code>qiqi-scene-midnight-supply-shop-v1.jpg</code></a></td><td>1856×2320</td><td>场景</td></tr>
+                <tr><td>06</td><td>六宫格静态表情集</td><td><a href="hello-kitty-suit-expression-sheet-v1.jpg" target="_blank"><code>hello-kitty-suit-expression-sheet-v1.jpg</code></a></td><td>2048×2048</td><td>表情</td></tr>
+                <tr><td>07</td><td>六宫格动作 Pose 集</td><td><a href="hello-kitty-suit-pose-sheet-v1.png" target="_blank"><code>hello-kitty-suit-pose-sheet-v1.png</code></a></td><td>1536×1024</td><td>动作</td></tr>
+                <tr><td>08</td><td>360°结构与细节</td><td><a href="hello-kitty-suit-turnaround-detail-v1.jpg" target="_blank"><code>hello-kitty-suit-turnaround-detail-v1.jpg</code></a></td><td>2816×1584</td><td>360°</td></tr>
+                <tr><td>09</td><td>IP角色系统总案板</td><td><a href="hello-kitty-suit-ip-board-v1.jpg" target="_blank"><code>hello-kitty-suit-ip-board-v1.jpg</code></a></td><td>2816×1584</td><td>案板</td></tr>
+                <tr><td>10</td><td>灵感与视觉语言分析</td><td><a href="qiqi-inspiration-analysis-board-v1.jpg" target="_blank"><code>qiqi-inspiration-analysis-board-v1.jpg</code></a></td><td>2816×1584</td><td>灵感</td></tr>
+              <tr><td>11</td><td>挥手跳跃 · 轻量GIF</td><td><a href="qiqi-wave-jump-sticker-v1.gif" target="_blank"><code>qiqi-wave-jump-sticker-v1.gif</code></a></td><td>512×512</td><td>动态表情</td></tr>
+              <tr><td>12</td><td>挥手跳跃 · 高清GIF</td><td><a href="qiqi-wave-jump-sticker-hq-v1.gif" target="_blank"><code>qiqi-wave-jump-sticker-hq-v1.gif</code></a></td><td>640×640</td><td>动态表情</td></tr>
+              <tr><td>13</td><td>挥手跳跃 · 关键帧母图</td><td><a href="qiqi-wave-jump-spritesheet-v1.jpg" target="_blank"><code>qiqi-wave-jump-spritesheet-v1.jpg</code></a></td><td>3136×1344</td><td>动画制作</td></tr>
+              <tr><td>14</td><td>挥手跳跃 · QA联系表</td><td><a href="qiqi-wave-jump-gif-qa-v1.jpg" target="_blank"><code>qiqi-wave-jump-gif-qa-v1.jpg</code></a></td><td>1084×548</td><td>动画QA</td></tr>
+                <tr><td>15</td><td>历史母版 v2</td><td><a href="hello-kitty-suit-mascot-v2.jpg" target="_blank"><code>hello-kitty-suit-mascot-v2.jpg</code></a></td><td>2048×2048</td><td>迭代</td></tr>
+                <tr><td>16</td><td>v3 手办质感候选</td><td><a href="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" target="_blank"><code>hello-kitty-suit-mascot-v3-arttoy-candidate.jpg</code></a></td><td>2048×2048</td><td>迭代</td></tr>
+                <tr><td>17</td><td>动作Pose上传参考</td><td><a href="hello-kitty-suit-pose-sheet-upload-ref.jpg" target="_blank"><code>hello-kitty-suit-pose-sheet-upload-ref.jpg</code></a></td><td>1200×800</td><td>内部资料</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>琪琪 IP视觉资产馆 · 本地离线HTML · 角色身份基准：qiqi-master-v3-approved.jpg</span>
+      <span>当前用途：非商用概念设计 · clearance_status: not_checked</span>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="图片预览">
+    <div class="lightbox-bar">
+      <div class="lightbox-title" id="lightboxTitle"></div>
+      <div class="lightbox-actions">
+        <a class="open-original" id="lightboxLink" href="#" target="_blank">打开原图</a>
+        <button class="icon-btn" id="lightboxClose" aria-label="关闭预览">关闭</button>
+      </div>
+    </div>
+    <div class="lightbox-stage" id="lightboxStage">
+      <button class="nav-btn prev" id="lightboxPrev" aria-label="上一张">‹</button>
+      <img id="lightboxImage" alt="">
+      <button class="nav-btn next" id="lightboxNext" aria-label="下一张">›</button>
+    </div>
+    <div class="lightbox-help">滚轮缩放 · 放大后拖动 · ← → 切换 · Esc 关闭</div>
+  </div>
+
+  <button class="to-top" id="toTop" aria-label="返回顶部">↑</button>
+
+  <script>
+    (() => {
+      const filterButtons = [...document.querySelectorAll('.filter-btn')];
+      const sections = [...document.querySelectorAll('.gallery-section')];
+      const countLabel = document.getElementById('visibleCount');
+
+      filterButtons.forEach(button => button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+        filterButtons.forEach(item => item.classList.toggle('is-active', item === button));
+        let visible = 0;
+        sections.forEach(section => {
+          const categories = section.dataset.category.split(/\s+/);
+          const show = filter === 'all' || categories.includes(filter);
+          section.hidden = !show;
+          if (show) visible += 1;
+        });
+        countLabel.textContent = filter === 'all' ? '显示全部 8 个栏目' : `显示 ${visible} 个相关栏目`;
+        const first = sections.find(section => !section.hidden);
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
+
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightboxImage');
+      const lightboxTitle = document.getElementById('lightboxTitle');
+      const lightboxLink = document.getElementById('lightboxLink');
+      const lightboxStage = document.getElementById('lightboxStage');
+      const triggers = [...document.querySelectorAll('.js-lightbox')];
+      let activeIndex = 0;
+      let scale = 1;
+      let translateX = 0;
+      let translateY = 0;
+      let dragging = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      const renderTransform = () => {
+        lightboxImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        lightboxImage.style.cursor = scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'default';
+      };
+
+      const resetTransform = () => {
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        renderTransform();
+      };
+
+      const openAt = index => {
+        activeIndex = (index + triggers.length) % triggers.length;
+        const trigger = triggers[activeIndex];
+        lightboxImage.src = trigger.dataset.src;
+        lightboxImage.alt = trigger.dataset.title || '琪琪视觉资产';
+        lightboxTitle.textContent = trigger.dataset.title || '琪琪视觉资产';
+        lightboxLink.href = trigger.dataset.src;
+        resetTransform();
+        lightbox.hidden = false;
+        document.body.style.overflow = 'hidden';
+        document.getElementById('lightboxClose').focus();
+      };
+
+      const closeLightbox = () => {
+        lightbox.hidden = true;
+        document.body.style.overflow = '';
+        lightboxImage.removeAttribute('src');
+      };
+
+      triggers.forEach((trigger, index) => trigger.addEventListener('click', () => openAt(index)));
+      document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+      document.getElementById('lightboxPrev').addEventListener('click', () => openAt(activeIndex - 1));
+      document.getElementById('lightboxNext').addEventListener('click', () => openAt(activeIndex + 1));
+
+      lightbox.addEventListener('click', event => {
+        if (event.target === lightbox || event.target === lightboxStage) closeLightbox();
+      });
+
+      document.addEventListener('keydown', event => {
+        if (lightbox.hidden) return;
+        if (event.key === 'Escape') closeLightbox();
+        if (event.key === 'ArrowLeft') openAt(activeIndex - 1);
+        if (event.key === 'ArrowRight') openAt(activeIndex + 1);
+      });
+
+      lightboxStage.addEventListener('wheel', event => {
+        event.preventDefault();
+        scale = Math.min(4, Math.max(1, scale + (event.deltaY < 0 ? .2 : -.2)));
+        if (scale === 1) { translateX = 0; translateY = 0; }
+        renderTransform();
+      }, { passive: false });
+
+      lightboxImage.addEventListener('pointerdown', event => {
+        if (scale <= 1) return;
+        dragging = true;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        lightboxImage.setPointerCapture(event.pointerId);
+        renderTransform();
+      });
+
+      lightboxImage.addEventListener('pointermove', event => {
+        if (!dragging) return;
+        translateX += event.clientX - lastX;
+        translateY += event.clientY - lastY;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        renderTransform();
+      });
+
+      const endDrag = event => {
+        if (!dragging) return;
+        dragging = false;
+        if (lightboxImage.hasPointerCapture(event.pointerId)) lightboxImage.releasePointerCapture(event.pointerId);
+        renderTransform();
+      };
+      lightboxImage.addEventListener('pointerup', endDrag);
+      lightboxImage.addEventListener('pointercancel', endDrag);
+
+      const toTop = document.getElementById('toTop');
+      window.addEventListener('scroll', () => toTop.classList.toggle('is-visible', window.scrollY > 720), { passive: true });
+      toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+  </script>
+</body>
+</html>
