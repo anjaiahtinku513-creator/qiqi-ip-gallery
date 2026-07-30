@@ -156,6 +156,36 @@
     .filter-btn.is-active { background: var(--blue); color: white; box-shadow: 0 7px 18px rgba(7,93,150,.26); }
     .visible-count { margin-left: auto; padding: 0 10px; white-space: nowrap; color: var(--muted); font-size: 12px; }
 
+    .story-journey {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      margin: 30px auto 2px;
+    }
+    .story-journey a {
+      display: grid;
+      gap: 4px;
+      min-height: 92px;
+      padding: 17px 19px;
+      border: 1px solid rgba(7,93,150,.14);
+      border-radius: 20px;
+      background: rgba(255,255,255,.82);
+      box-shadow: 0 12px 30px rgba(62,72,91,.08);
+      color: inherit;
+      text-decoration: none;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .story-journey a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(7,93,150,.34);
+      box-shadow: 0 15px 34px rgba(62,72,91,.13);
+    }
+    .story-journey small { color: var(--blue); font-weight: 850; letter-spacing: .08em; }
+    .story-journey strong { font-size: 20px; letter-spacing: -.02em; }
+    .story-journey span { color: var(--muted); font-size: 13px; }
+    .journey-arrow { color: var(--red); font-size: 22px; font-weight: 850; }
+
     main { padding: 34px 0 90px; }
     .gallery-section { padding: 64px 0 8px; scroll-margin-top: 88px; }
     .gallery-section[hidden] { display: none; }
@@ -368,6 +398,18 @@
       .topbar { margin-bottom: 100px; }
       .toplinks { display: none; }
       .hero-copy { width: 100%; }
+      .story-journey {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        margin-top: 22px;
+        padding-bottom: 7px;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+      }
+      .story-journey::-webkit-scrollbar { display: none; }
+      .story-journey a { flex: 0 0 210px; min-height: 88px; scroll-snap-align: start; }
+      .journey-arrow { flex: 0 0 auto; align-self: center; }
       .section-head { grid-template-columns: 1fr; gap: 10px; }
       .gallery-section { padding-top: 44px; }
       .asset-card, .asset-card.tall, .identity-panel { grid-column: 1 / -1; }
@@ -392,16 +434,16 @@
         <div class="brand-lockup"><span class="brand-dot"></span><span>QIQI IP ARCHIVE</span></div>
         <nav class="toplinks" aria-label="页面导航">
           <a href="#master">角色母版</a>
-          <a href="#expressions">表情包</a>
+          <a href="#turnaround">360°结构</a>
+          <a href="#expressions">表情与动作</a>
           <a href="#scenes">泡泡世界</a>
-          <a href="#animation">动态贴纸</a>
         </nav>
       </div>
       <div class="hero-copy">
         <div class="eyebrow">琪琪 · 心愿泡泡修补员</div>
         <h1>琪<span>琪</span></h1>
         <p class="hero-lead">把每一种没说出口的小情绪，装进发光泡泡，修好，再送回需要它的人身边。</p>
-        <p class="hero-note">单页离线视觉资产馆 · 当前正式母版 v3 · 更新于 2026-07-29</p>
+        <p class="hero-note">琪琪 IP 在线视觉资产馆 · 当前正式母版 v3 · 更新于 2026-07-30</p>
         <div class="stats">
           <div class="stat"><strong>17</strong><span>图片与GIF资产</span></div>
           <div class="stat"><strong>6+1</strong><span>静态表情 + 动态表情</span></div>
@@ -412,16 +454,36 @@
     </div>
   </header>
 
+  <nav class="story-journey shell" aria-label="琪琪IP由点到面浏览路径">
+    <a href="#master">
+      <small>01 · 点</small>
+      <strong>角色成立</strong>
+      <span>母版 · 360°结构与材质</span>
+    </a>
+    <span class="journey-arrow" aria-hidden="true">→</span>
+    <a href="#expressions">
+      <small>02 · 线</small>
+      <strong>性格展开</strong>
+      <span>表情 · Pose · 动态生命</span>
+    </a>
+    <span class="journey-arrow" aria-hidden="true">→</span>
+    <a href="#analysis">
+      <small>03 · 面</small>
+      <strong>世界生长</strong>
+      <span>视觉语言 · 主视觉 · 泡泡世界</span>
+    </a>
+  </nav>
+
   <div class="shell toolbar-wrap" aria-label="资产筛选">
     <div class="toolbar">
       <button class="filter-btn is-active" data-filter="all">全部</button>
       <button class="filter-btn" data-filter="master">母版</button>
-      <button class="filter-btn" data-filter="scene">主视觉与场景</button>
+      <button class="filter-btn" data-filter="turnaround">360°与案板</button>
       <button class="filter-btn" data-filter="expression">表情包</button>
       <button class="filter-btn" data-filter="pose">动作 Pose</button>
-      <button class="filter-btn" data-filter="turnaround">360°与细节</button>
       <button class="filter-btn" data-filter="animation">动态贴纸</button>
       <button class="filter-btn" data-filter="analysis">灵感分析</button>
+      <button class="filter-btn" data-filter="scene">主视觉与场景</button>
       <button class="filter-btn" data-filter="archive">迭代档案</button>
       <span class="visible-count" id="visibleCount">显示全部 8 个栏目</span>
     </div>
@@ -470,41 +532,24 @@
       </div>
     </section>
 
-    <section class="gallery-section" id="scenes" data-category="scene">
+    <section class="gallery-section" id="turnaround" data-category="turnaround">
       <div class="section-head">
-        <div><div class="section-kicker">02 / Bubble World</div><h2>主视觉与泡泡世界</h2></div>
-        <p>从品牌首屏到企业创新、情绪疗愈与包装故事，场景只改变环境、动作和镜头，不改变琪琪的身份锚点。</p>
+        <div><div class="section-kicker">02 / Model Sheet</div><h2>360°结构与角色案板</h2></div>
+        <p>从正面身份锚点延伸到五视图、材质与生产规范，先让琪琪在每个角度都成立。</p>
       </div>
       <div class="grid">
-        <article class="asset-card tall">
-          <button class="media-button media-portrait js-lightbox" data-src="qiqi-key-visual-wish-bubble-station-v1.jpg" data-title="琪琪 · 心愿泡泡总站">
-            <img src="qiqi-key-visual-wish-bubble-station-v1.jpg" alt="琪琪心愿泡泡总站主视觉" loading="lazy">
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-turnaround-detail-v1.jpg" data-title="琪琪 · 360°结构与细节">
+            <img src="hello-kitty-suit-turnaround-detail-v1.jpg" alt="琪琪360度结构与细节图" loading="lazy">
           </button>
-          <div class="card-body"><div class="card-topline"><span class="pill red">品牌主视觉</span><span class="status">ACCEPTED</span></div><h3>心愿泡泡总站</h3><p>琪琪手捧微缩心愿泡泡，泡泡拱门、云路与列车共同建立世界入口。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>官网 / 包装 / 海报</span></div><div class="fileline"><a href="qiqi-key-visual-wish-bubble-station-v1.jpg" target="_blank">qiqi-key-visual-wish-bubble-station-v1.jpg</a></div></div>
+          <div class="card-body"><div class="card-topline"><span class="pill yellow">360°设定</span><span class="status">ACCEPTED</span></div><h3>五视图与三组材质细节</h3><p>正面、三分之四、侧面、后侧与背面，并包含脸部、蝴蝶结和服装分件特写。</p><div class="meta-row"><span>2816 × 1584</span><span>五视图</span><span>结构 / 材质 / 生产参考</span></div><div class="fileline"><a href="hello-kitty-suit-turnaround-detail-v1.jpg" target="_blank">hello-kitty-suit-turnaround-detail-v1.jpg</a></div></div>
         </article>
-        <article class="asset-card wide">
-          <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-moon-repair-v1.jpg" data-title="琪琪 · 月光修补师">
-            <img src="qiqi-scene-moon-repair-v1.jpg" alt="琪琪修补月亮场景" loading="lazy">
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-ip-board-v1.jpg" data-title="琪琪 · IP角色系统总案板">
+            <img src="hello-kitty-suit-ip-board-v1.jpg" alt="琪琪IP角色系统总案板" loading="lazy">
           </button>
-          <div class="card-body"><div class="card-topline"><span class="pill yellow">叙事场景</span><span class="status">ACCEPTED</span></div><h3>月光修补师</h3><p>琪琪用发光工具修补裂开的弯月，表达“让每一种小情绪被看见”的角色使命。</p><div class="meta-row"><span>2496 × 1664</span><span>3:2横版</span><span>漫画封面 / 节日礼盒</span></div><div class="fileline"><a href="qiqi-scene-moon-repair-v1.jpg" target="_blank">qiqi-scene-moon-repair-v1.jpg</a></div></div>
+          <div class="card-body"><div class="card-topline"><span class="pill">综合案板</span><span class="status">ACCEPTED</span></div><h3>琪琪 · IP角色系统总案板</h3><p>母版、表情、动作、环视、细节和四色板整合在一张横版设计提案中。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9案板</span><span>提案 / 角色规范</span></div><div class="fileline"><a href="hello-kitty-suit-ip-board-v1.jpg" target="_blank">hello-kitty-suit-ip-board-v1.jpg</a></div></div>
         </article>
-        <article class="asset-card wide">
-          <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-inspiration-lab-v1.jpg" data-title="琪琪 · 灵感泡泡实验室">
-            <img src="qiqi-scene-inspiration-lab-v1.jpg" alt="琪琪灵感泡泡实验室场景" loading="lazy">
-          </button>
-          <div class="card-body"><div class="card-topline"><span class="pill">企业应用</span><span class="status">ACCEPTED</span></div><h3>灵感泡泡实验室</h3><p>玻璃穹顶与薄荷设备延续世界材质，右侧保留大面积公司文案安全区。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9横版</span><span>创新 / 招聘 / 企业文化</span></div><div class="fileline"><a href="qiqi-scene-inspiration-lab-v1.jpg" target="_blank">qiqi-scene-inspiration-lab-v1.jpg</a></div></div>
-        </article>
-        <article class="asset-card tall">
-          <button class="media-button media-portrait js-lightbox" data-src="qiqi-scene-midnight-supply-shop-v1.jpg" data-title="琪琪 · 午夜心情补给铺">
-            <img src="qiqi-scene-midnight-supply-shop-v1.jpg" alt="琪琪午夜心情补给铺场景" loading="lazy">
-          </button>
-          <div class="card-body"><div class="card-topline"><span class="pill red">生活场景</span><span class="status">ACCEPTED</span></div><h3>午夜心情补给铺</h3><p>雨夜小店里，琪琪递出一颗暖光心愿泡泡，适合治愈社交内容与包装背面故事。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>社交 / 零售 / 陈列</span></div><div class="fileline"><a href="qiqi-scene-midnight-supply-shop-v1.jpg" target="_blank">qiqi-scene-midnight-supply-shop-v1.jpg</a></div></div>
-        </article>
-      </div>
-      <div class="world-strip">
-        <div class="world-chip"><strong>心愿泡泡</strong><span>收纳未说出口的小情绪，也是包装开窗与产品承载容器。</span></div>
-        <div class="world-chip"><strong>蝴蝶结信标</strong><span>产生柔和信标光，但颜色、三瓣造型与物理侧向永远不变。</span></div>
-        <div class="world-chip"><strong>蓝色云路</strong><span>连接总站、工坊、实验室、补给铺与现实城市的圆弧光轨。</span></div>
       </div>
     </section>
 
@@ -554,30 +599,9 @@
       </div>
     </section>
 
-    <section class="gallery-section" id="turnaround" data-category="turnaround">
-      <div class="section-head">
-        <div><div class="section-kicker">05 / Model Sheet</div><h2>360°结构与角色案板</h2></div>
-        <p>五视图确保帽兜、长发、蝴蝶结、背带裤和身体结构能够在不同角度中物理连贯。</p>
-      </div>
-      <div class="grid">
-        <article class="asset-card full">
-          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-turnaround-detail-v1.jpg" data-title="琪琪 · 360°结构与细节">
-            <img src="hello-kitty-suit-turnaround-detail-v1.jpg" alt="琪琪360度结构与细节图" loading="lazy">
-          </button>
-          <div class="card-body"><div class="card-topline"><span class="pill yellow">360°设定</span><span class="status">ACCEPTED</span></div><h3>五视图与三组材质细节</h3><p>正面、三分之四、侧面、后侧与背面，并包含脸部、蝴蝶结和服装分件特写。</p><div class="meta-row"><span>2816 × 1584</span><span>五视图</span><span>结构 / 材质 / 生产参考</span></div><div class="fileline"><a href="hello-kitty-suit-turnaround-detail-v1.jpg" target="_blank">hello-kitty-suit-turnaround-detail-v1.jpg</a></div></div>
-        </article>
-        <article class="asset-card full">
-          <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-ip-board-v1.jpg" data-title="琪琪 · IP角色系统总案板">
-            <img src="hello-kitty-suit-ip-board-v1.jpg" alt="琪琪IP角色系统总案板" loading="lazy">
-          </button>
-          <div class="card-body"><div class="card-topline"><span class="pill">综合案板</span><span class="status">ACCEPTED</span></div><h3>琪琪 · IP角色系统总案板</h3><p>母版、表情、动作、环视、细节和四色板整合在一张横版设计提案中。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9案板</span><span>提案 / 角色规范</span></div><div class="fileline"><a href="hello-kitty-suit-ip-board-v1.jpg" target="_blank">hello-kitty-suit-ip-board-v1.jpg</a></div></div>
-        </article>
-      </div>
-    </section>
-
     <section class="gallery-section" id="animation" data-category="animation">
       <div class="section-head">
-        <div><div class="section-kicker">06 / Motion Sticker</div><h2>动态表情包</h2></div>
+        <div><div class="section-kicker">05 / Motion Sticker</div><h2>动态表情包</h2></div>
         <p>动态表情名称：<strong>挥手跳跃</strong>。琪琪原地上下跳跃，同时双臂向上挥舞；1.1秒，无限循环。</p>
       </div>
       <div class="grid">
@@ -610,8 +634,8 @@
 
     <section class="gallery-section" id="analysis" data-category="analysis">
       <div class="section-head">
-        <div><div class="section-kicker">07 / Visual Language</div><h2>灵感与视觉语言</h2></div>
-        <p>标准角色、核心色、扩展色、材质球、泡泡与拱门母题，以及世界观微缩场景。</p>
+        <div><div class="section-kicker">06 / Visual Language</div><h2>灵感与视觉语言</h2></div>
+        <p>把琪琪的核心色、材质、泡泡与拱门母题整理成规则，为进入完整场景建立统一语言。</p>
       </div>
       <div class="grid">
         <article class="asset-card full">
@@ -620,6 +644,44 @@
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill">灵感分析</span><span class="status">ACCEPTED</span></div><h3>琪琪 · 灵感与视觉语言分析板</h3><p>月光蓝、奶油黄、珠光白、果冻粉与薄荷绿共同组成泡泡世界的扩展语汇。</p><div class="meta-row"><span>2816 × 1584</span><span>色板</span><span>材质</span><span>造型母题</span><span>场景缩略图</span></div><div class="fileline"><a href="qiqi-inspiration-analysis-board-v1.jpg" target="_blank">qiqi-inspiration-analysis-board-v1.jpg</a></div></div>
         </article>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="scenes" data-category="scene">
+      <div class="section-head">
+        <div><div class="section-kicker">07 / Bubble World</div><h2>主视觉与泡泡世界</h2></div>
+        <p>当角色、动作和视觉语言都建立完成，琪琪从一个角色走进可持续扩展的品牌世界。</p>
+      </div>
+      <div class="grid">
+        <article class="asset-card tall">
+          <button class="media-button media-portrait js-lightbox" data-src="qiqi-key-visual-wish-bubble-station-v1.jpg" data-title="琪琪 · 心愿泡泡总站">
+            <img src="qiqi-key-visual-wish-bubble-station-v1.jpg" alt="琪琪心愿泡泡总站主视觉" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">品牌主视觉</span><span class="status">ACCEPTED</span></div><h3>心愿泡泡总站</h3><p>琪琪手捧微缩心愿泡泡，泡泡拱门、云路与列车共同建立世界入口。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>官网 / 包装 / 海报</span></div><div class="fileline"><a href="qiqi-key-visual-wish-bubble-station-v1.jpg" target="_blank">qiqi-key-visual-wish-bubble-station-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card wide">
+          <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-moon-repair-v1.jpg" data-title="琪琪 · 月光修补师">
+            <img src="qiqi-scene-moon-repair-v1.jpg" alt="琪琪修补月亮场景" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill yellow">叙事场景</span><span class="status">ACCEPTED</span></div><h3>月光修补师</h3><p>琪琪用发光工具修补裂开的弯月，表达“让每一种小情绪被看见”的角色使命。</p><div class="meta-row"><span>2496 × 1664</span><span>3:2横版</span><span>漫画封面 / 节日礼盒</span></div><div class="fileline"><a href="qiqi-scene-moon-repair-v1.jpg" target="_blank">qiqi-scene-moon-repair-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card wide">
+          <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-inspiration-lab-v1.jpg" data-title="琪琪 · 灵感泡泡实验室">
+            <img src="qiqi-scene-inspiration-lab-v1.jpg" alt="琪琪灵感泡泡实验室场景" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill">企业应用</span><span class="status">ACCEPTED</span></div><h3>灵感泡泡实验室</h3><p>玻璃穹顶与薄荷设备延续世界材质，右侧保留大面积公司文案安全区。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9横版</span><span>创新 / 招聘 / 企业文化</span></div><div class="fileline"><a href="qiqi-scene-inspiration-lab-v1.jpg" target="_blank">qiqi-scene-inspiration-lab-v1.jpg</a></div></div>
+        </article>
+        <article class="asset-card tall">
+          <button class="media-button media-portrait js-lightbox" data-src="qiqi-scene-midnight-supply-shop-v1.jpg" data-title="琪琪 · 午夜心情补给铺">
+            <img src="qiqi-scene-midnight-supply-shop-v1.jpg" alt="琪琪午夜心情补给铺场景" loading="lazy">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">生活场景</span><span class="status">ACCEPTED</span></div><h3>午夜心情补给铺</h3><p>雨夜小店里，琪琪递出一颗暖光心愿泡泡，适合治愈社交内容与包装背面故事。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>社交 / 零售 / 陈列</span></div><div class="fileline"><a href="qiqi-scene-midnight-supply-shop-v1.jpg" target="_blank">qiqi-scene-midnight-supply-shop-v1.jpg</a></div></div>
+        </article>
+      </div>
+      <div class="world-strip">
+        <div class="world-chip"><strong>心愿泡泡</strong><span>收纳未说出口的小情绪，也是包装开窗与产品承载容器。</span></div>
+        <div class="world-chip"><strong>蝴蝶结信标</strong><span>产生柔和信标光，但颜色、三瓣造型与物理侧向永远不变。</span></div>
+        <div class="world-chip"><strong>蓝色云路</strong><span>连接总站、工坊、实验室、补给铺与现实城市的圆弧光轨。</span></div>
       </div>
     </section>
 
@@ -651,7 +713,7 @@
     </section>
 
     <section class="gallery-section" data-category="all">
-      <div class="section-head"><div><div class="section-kicker">Asset Index</div><h2>完整文件索引</h2></div><p>共17个纳入图册的图片/GIF文件。点击文件名可直接打开本地原图。</p></div>
+      <div class="section-head"><div><div class="section-kicker">Asset Index</div><h2>完整文件索引</h2></div><p>共17个纳入图册的图片/GIF文件。点击文件名可直接打开高清原图。</p></div>
       <div class="index-box">
         <details>
           <summary>展开全部 17 个文件</summary>
@@ -660,19 +722,19 @@
               <thead><tr><th>#</th><th>资产名称</th><th>文件</th><th>尺寸</th><th>分类</th></tr></thead>
               <tbody>
                 <tr><td>01</td><td>琪琪 v3 正式母版</td><td><a href="qiqi-master-v3-approved.jpg" target="_blank"><code>qiqi-master-v3-approved.jpg</code></a></td><td>2048×2048</td><td>母版</td></tr>
-                <tr><td>02</td><td>心愿泡泡总站</td><td><a href="qiqi-key-visual-wish-bubble-station-v1.jpg" target="_blank"><code>qiqi-key-visual-wish-bubble-station-v1.jpg</code></a></td><td>1856×2320</td><td>主视觉</td></tr>
-                <tr><td>03</td><td>月光修补师</td><td><a href="qiqi-scene-moon-repair-v1.jpg" target="_blank"><code>qiqi-scene-moon-repair-v1.jpg</code></a></td><td>2496×1664</td><td>场景</td></tr>
-                <tr><td>04</td><td>灵感泡泡实验室</td><td><a href="qiqi-scene-inspiration-lab-v1.jpg" target="_blank"><code>qiqi-scene-inspiration-lab-v1.jpg</code></a></td><td>2816×1584</td><td>场景</td></tr>
-                <tr><td>05</td><td>午夜心情补给铺</td><td><a href="qiqi-scene-midnight-supply-shop-v1.jpg" target="_blank"><code>qiqi-scene-midnight-supply-shop-v1.jpg</code></a></td><td>1856×2320</td><td>场景</td></tr>
-                <tr><td>06</td><td>六宫格静态表情集</td><td><a href="hello-kitty-suit-expression-sheet-v1.jpg" target="_blank"><code>hello-kitty-suit-expression-sheet-v1.jpg</code></a></td><td>2048×2048</td><td>表情</td></tr>
-                <tr><td>07</td><td>六宫格动作 Pose 集</td><td><a href="hello-kitty-suit-pose-sheet-v1.png" target="_blank"><code>hello-kitty-suit-pose-sheet-v1.png</code></a></td><td>1536×1024</td><td>动作</td></tr>
-                <tr><td>08</td><td>360°结构与细节</td><td><a href="hello-kitty-suit-turnaround-detail-v1.jpg" target="_blank"><code>hello-kitty-suit-turnaround-detail-v1.jpg</code></a></td><td>2816×1584</td><td>360°</td></tr>
-                <tr><td>09</td><td>IP角色系统总案板</td><td><a href="hello-kitty-suit-ip-board-v1.jpg" target="_blank"><code>hello-kitty-suit-ip-board-v1.jpg</code></a></td><td>2816×1584</td><td>案板</td></tr>
+                <tr><td>02</td><td>360°结构与细节</td><td><a href="hello-kitty-suit-turnaround-detail-v1.jpg" target="_blank"><code>hello-kitty-suit-turnaround-detail-v1.jpg</code></a></td><td>2816×1584</td><td>360°</td></tr>
+                <tr><td>03</td><td>IP角色系统总案板</td><td><a href="hello-kitty-suit-ip-board-v1.jpg" target="_blank"><code>hello-kitty-suit-ip-board-v1.jpg</code></a></td><td>2816×1584</td><td>案板</td></tr>
+                <tr><td>04</td><td>六宫格静态表情集</td><td><a href="hello-kitty-suit-expression-sheet-v1.jpg" target="_blank"><code>hello-kitty-suit-expression-sheet-v1.jpg</code></a></td><td>2048×2048</td><td>表情</td></tr>
+                <tr><td>05</td><td>六宫格动作 Pose 集</td><td><a href="hello-kitty-suit-pose-sheet-v1.png" target="_blank"><code>hello-kitty-suit-pose-sheet-v1.png</code></a></td><td>1536×1024</td><td>动作</td></tr>
+                <tr><td>06</td><td>挥手跳跃 · 轻量GIF</td><td><a href="qiqi-wave-jump-sticker-v1.gif" target="_blank"><code>qiqi-wave-jump-sticker-v1.gif</code></a></td><td>512×512</td><td>动态表情</td></tr>
+                <tr><td>07</td><td>挥手跳跃 · 高清GIF</td><td><a href="qiqi-wave-jump-sticker-hq-v1.gif" target="_blank"><code>qiqi-wave-jump-sticker-hq-v1.gif</code></a></td><td>640×640</td><td>动态表情</td></tr>
+                <tr><td>08</td><td>挥手跳跃 · 关键帧母图</td><td><a href="qiqi-wave-jump-spritesheet-v1.jpg" target="_blank"><code>qiqi-wave-jump-spritesheet-v1.jpg</code></a></td><td>3136×1344</td><td>动画制作</td></tr>
+                <tr><td>09</td><td>挥手跳跃 · QA联系表</td><td><a href="qiqi-wave-jump-gif-qa-v1.jpg" target="_blank"><code>qiqi-wave-jump-gif-qa-v1.jpg</code></a></td><td>1084×548</td><td>动画QA</td></tr>
                 <tr><td>10</td><td>灵感与视觉语言分析</td><td><a href="qiqi-inspiration-analysis-board-v1.jpg" target="_blank"><code>qiqi-inspiration-analysis-board-v1.jpg</code></a></td><td>2816×1584</td><td>灵感</td></tr>
-              <tr><td>11</td><td>挥手跳跃 · 轻量GIF</td><td><a href="qiqi-wave-jump-sticker-v1.gif" target="_blank"><code>qiqi-wave-jump-sticker-v1.gif</code></a></td><td>512×512</td><td>动态表情</td></tr>
-              <tr><td>12</td><td>挥手跳跃 · 高清GIF</td><td><a href="qiqi-wave-jump-sticker-hq-v1.gif" target="_blank"><code>qiqi-wave-jump-sticker-hq-v1.gif</code></a></td><td>640×640</td><td>动态表情</td></tr>
-              <tr><td>13</td><td>挥手跳跃 · 关键帧母图</td><td><a href="qiqi-wave-jump-spritesheet-v1.jpg" target="_blank"><code>qiqi-wave-jump-spritesheet-v1.jpg</code></a></td><td>3136×1344</td><td>动画制作</td></tr>
-              <tr><td>14</td><td>挥手跳跃 · QA联系表</td><td><a href="qiqi-wave-jump-gif-qa-v1.jpg" target="_blank"><code>qiqi-wave-jump-gif-qa-v1.jpg</code></a></td><td>1084×548</td><td>动画QA</td></tr>
+                <tr><td>11</td><td>心愿泡泡总站</td><td><a href="qiqi-key-visual-wish-bubble-station-v1.jpg" target="_blank"><code>qiqi-key-visual-wish-bubble-station-v1.jpg</code></a></td><td>1856×2320</td><td>主视觉</td></tr>
+                <tr><td>12</td><td>月光修补师</td><td><a href="qiqi-scene-moon-repair-v1.jpg" target="_blank"><code>qiqi-scene-moon-repair-v1.jpg</code></a></td><td>2496×1664</td><td>场景</td></tr>
+                <tr><td>13</td><td>灵感泡泡实验室</td><td><a href="qiqi-scene-inspiration-lab-v1.jpg" target="_blank"><code>qiqi-scene-inspiration-lab-v1.jpg</code></a></td><td>2816×1584</td><td>场景</td></tr>
+                <tr><td>14</td><td>午夜心情补给铺</td><td><a href="qiqi-scene-midnight-supply-shop-v1.jpg" target="_blank"><code>qiqi-scene-midnight-supply-shop-v1.jpg</code></a></td><td>1856×2320</td><td>场景</td></tr>
                 <tr><td>15</td><td>历史母版 v2</td><td><a href="hello-kitty-suit-mascot-v2.jpg" target="_blank"><code>hello-kitty-suit-mascot-v2.jpg</code></a></td><td>2048×2048</td><td>迭代</td></tr>
                 <tr><td>16</td><td>v3 手办质感候选</td><td><a href="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" target="_blank"><code>hello-kitty-suit-mascot-v3-arttoy-candidate.jpg</code></a></td><td>2048×2048</td><td>迭代</td></tr>
                 <tr><td>17</td><td>动作Pose上传参考</td><td><a href="hello-kitty-suit-pose-sheet-upload-ref.jpg" target="_blank"><code>hello-kitty-suit-pose-sheet-upload-ref.jpg</code></a></td><td>1200×800</td><td>内部资料</td></tr>
@@ -684,7 +746,7 @@
     </section>
 
     <footer class="footer">
-      <span>琪琪 IP视觉资产馆 · 本地离线HTML · 角色身份基准：qiqi-master-v3-approved.jpg</span>
+      <span>琪琪 IP视觉资产馆 · 在线视觉档案 · 角色身份基准：qiqi-master-v3-approved.jpg</span>
       <span>当前用途：非商用概念设计 · clearance_status: not_checked</span>
     </footer>
   </main>
