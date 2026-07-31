@@ -114,6 +114,25 @@
     .hero-lead { margin: 20px 0 0; max-width: 610px; font-size: clamp(18px, 2vw, 26px); color: rgba(255,255,255,.92); }
     .hero-note { margin-top: 14px; color: rgba(255,255,255,.7); font-size: 14px; }
 
+    .hero-special-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 22px;
+      padding: 11px 15px;
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(243,184,199,.24), rgba(217,164,65,.2));
+      box-shadow: 0 12px 32px rgba(5,20,39,.18);
+      color: white;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      transition: transform .2s ease, background .2s ease;
+    }
+    .hero-special-link:hover { transform: translateY(-2px); background: linear-gradient(135deg, rgba(243,184,199,.34), rgba(217,164,65,.3)); }
+    .hero-special-link span { color: #f7d9a0; font-size: 10px; font-weight: 900; letter-spacing: .13em; }
+    .hero-special-link strong { font-size: 14px; }
+
     .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
     .stat {
       min-width: 130px;
@@ -309,6 +328,120 @@
     .world-chip strong { display: block; margin-bottom: 3px; }
     .world-chip span { color: var(--muted); font-size: 12px; }
 
+    .media-three-two { aspect-ratio: 3 / 2; }
+    .media-two-one { aspect-ratio: 2 / 1; }
+
+    .birthday-section {
+      position: relative;
+      overflow: hidden;
+      margin-top: 72px;
+      padding: 64px 26px 34px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 38px;
+      color: white;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(243,184,199,.28), transparent 25rem),
+        radial-gradient(circle at 8% 44%, rgba(245,203,50,.13), transparent 30rem),
+        linear-gradient(150deg, #102b4b 0%, #0b3e69 52%, #172d54 100%);
+      box-shadow: 0 28px 75px rgba(17,43,75,.28);
+    }
+    .birthday-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,.32) 0 1px, transparent 1.6px);
+      background-size: 42px 42px;
+      -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.65), transparent 72%);
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.65), transparent 72%);
+      opacity: .28;
+    }
+    .birthday-section > * { position: relative; z-index: 1; }
+    .birthday-section .section-head { margin-bottom: 30px; }
+    .birthday-section .section-kicker { color: #f7d9a0; }
+    .birthday-section .section-head p { color: rgba(255,255,255,.72); }
+    .birthday-section .asset-card { color: var(--ink); background: rgba(255,253,248,.94); border-color: rgba(255,255,255,.55); }
+    .birthday-section .media-button { background: #f5f2ec; }
+    .birthday-title {
+      font-family: "STKaiti", "KaiTi", "FangSong", serif;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      text-shadow: 0 7px 24px rgba(4,20,38,.32);
+    }
+    .birthday-kv-layout, .birthday-gif-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+    .birthday-kv-layout .asset-card, .birthday-gif-layout .asset-card, .birthday-story-grid .asset-card { grid-column: auto; }
+    .birthday-kv-layout .asset-card { height: 100%; }
+    .birthday-copy-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+      padding: clamp(24px, 4vw, 48px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.055));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
+      backdrop-filter: blur(14px);
+    }
+    .birthday-copy-panel .chapter-no { color: #f3b8c7; font-size: 11px; font-weight: 900; letter-spacing: .15em; }
+    .birthday-copy-panel h3 { margin: 8px 0 10px; font: 900 clamp(34px, 5vw, 70px)/1.03 "STKaiti", "KaiTi", serif; letter-spacing: -.055em; }
+    .birthday-copy-panel .quote { margin: 0; color: #fff4df; font-size: clamp(18px, 2.2vw, 28px); font-weight: 750; line-height: 1.45; }
+    .birthday-copy-panel .story-note { margin: 14px 0 0; color: rgba(255,255,255,.7); }
+    .birthday-flow { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; counter-reset: birthday-flow; }
+    .birthday-flow li { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.82); font-size: 13px; }
+    .birthday-flow li::before {
+      counter-increment: birthday-flow;
+      content: counter(birthday-flow, decimal-leading-zero);
+      display: grid;
+      place-items: center;
+      width: 30px;
+      aspect-ratio: 1;
+      flex: 0 0 auto;
+      border: 1px solid rgba(247,217,160,.42);
+      border-radius: 50%;
+      color: #f7d9a0;
+      font-size: 9px;
+      font-weight: 900;
+    }
+    .birthday-subsection { margin-top: 46px; }
+    .birthday-subhead { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,500px); gap: 28px; align-items: end; margin-bottom: 18px; }
+    .birthday-subhead h3 { margin: 4px 0 0; font-size: clamp(25px, 3vw, 38px); line-height: 1.15; }
+    .birthday-subhead p { margin: 0; color: rgba(255,255,255,.68); font-size: 13px; }
+    .birthday-label-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-top: 14px; }
+    .birthday-label {
+      min-width: 0;
+      padding: 14px 15px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 15px;
+      background: rgba(255,255,255,.075);
+    }
+    .birthday-label b { display: block; color: #f7d9a0; font-size: 10px; letter-spacing: .08em; }
+    .birthday-label strong { display: block; margin-top: 2px; font-size: 14px; }
+    .birthday-label span { display: block; margin-top: 3px; color: rgba(255,255,255,.58); font-size: 10px; }
+    .birthday-story-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; }
+    .birthday-story-grid .story-wide { grid-column: 1 / -1; }
+    .birthday-arrival-link {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 22px;
+      border: 1px solid rgba(247,217,160,.32);
+      border-radius: 20px;
+      background: linear-gradient(90deg, rgba(243,184,199,.16), rgba(217,164,65,.13));
+      color: white;
+      text-decoration: none;
+    }
+    .birthday-arrival-link small { color: #f7d9a0; font-weight: 900; letter-spacing: .08em; }
+    .birthday-arrival-link strong { display: block; margin-top: 2px; font-size: 20px; }
+    .birthday-arrival-link span { color: rgba(255,255,255,.65); font-size: 12px; }
+    .birthday-gif-layout { grid-template-columns: minmax(0, 8fr) minmax(260px, 4fr); }
     .index-box { overflow: hidden; border-radius: var(--radius); border: 1px solid rgba(255,255,255,.9); background: rgba(255,255,255,.74); box-shadow: var(--shadow); }
     .index-box details { padding: 0; }
     .index-box summary { cursor: pointer; padding: 20px 24px; font-weight: 850; list-style: none; }
@@ -389,6 +522,7 @@
       .asset-card.wide { grid-column: 1 / -1; }
       .identity-panel { grid-column: span 6; }
       .emotion-grid, .pose-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .birthday-kv-layout, .birthday-gif-layout { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 720px) {
@@ -398,6 +532,7 @@
       .topbar { margin-bottom: 100px; }
       .toplinks { display: none; }
       .hero-copy { width: 100%; }
+      .hero-special-link { max-width: 100%; align-items: flex-start; flex-direction: column; gap: 2px; border-radius: 19px; }
       .story-journey {
         display: flex;
         overflow-x: auto;
@@ -415,6 +550,12 @@
       .asset-card, .asset-card.tall, .identity-panel { grid-column: 1 / -1; }
       .emotion-grid, .pose-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .world-strip { grid-template-columns: 1fr; }
+      .birthday-section { margin-top: 44px; padding: 44px 12px 24px; border-radius: 27px; }
+      .birthday-subhead { grid-template-columns: 1fr; gap: 7px; }
+      .birthday-label-grid, .birthday-story-grid { grid-template-columns: 1fr; }
+      .birthday-story-grid .story-wide, .birthday-arrival-link { grid-column: auto; }
+      .birthday-arrival-link { align-items: flex-start; flex-direction: column; }
+      .birthday-copy-panel { padding: 23px; }
       .visible-count { display: none; }
       .footer { flex-direction: column; }
       .nav-btn { width: 40px; }
@@ -437,17 +578,22 @@
           <a href="#turnaround">360°结构</a>
           <a href="#expressions">表情与动作</a>
           <a href="#scenes">泡泡世界</a>
+          <a href="#birthday-special">生日限定</a>
         </nav>
       </div>
       <div class="hero-copy">
         <div class="eyebrow">琪琪 · 心愿泡泡修补员</div>
         <h1>琪<span>琪</span></h1>
         <p class="hero-lead">把每一种没说出口的小情绪，装进发光泡泡，修好，再送回需要它的人身边。</p>
-        <p class="hero-note">琪琪 IP 在线视觉资产馆 · 当前正式母版 v3 · 更新于 2026-07-30</p>
+        <p class="hero-note">琪琪 IP 在线视觉资产馆 · 当前正式母版 v3 · 更新于 2026-07-31</p>
+        <a class="hero-special-link" href="#birthday-special">
+          <span>2026 BIRTHDAY SPECIAL</span>
+          <strong>下一站，愿望先给妈妈 →</strong>
+        </a>
         <div class="stats">
-          <div class="stat"><strong>17</strong><span>图片与GIF资产</span></div>
-          <div class="stat"><strong>6+1</strong><span>静态表情 + 动态表情</span></div>
-          <div class="stat"><strong>4</strong><span>世界观主视觉与场景</span></div>
+          <div class="stat"><strong>29</strong><span>图片与GIF资产</span></div>
+          <div class="stat"><strong>12+2</strong><span>静态表情 + 动态企划</span></div>
+          <div class="stat"><strong>8</strong><span>世界观主视觉与故事场景</span></div>
           <div class="stat"><strong>v3</strong><span>当前身份与材质母版</span></div>
         </div>
       </div>
@@ -484,8 +630,9 @@
       <button class="filter-btn" data-filter="animation">动态贴纸</button>
       <button class="filter-btn" data-filter="analysis">灵感分析</button>
       <button class="filter-btn" data-filter="scene">主视觉与场景</button>
+      <button class="filter-btn" data-filter="birthday">妈妈生日限定</button>
       <button class="filter-btn" data-filter="archive">迭代档案</button>
-      <span class="visible-count" id="visibleCount">显示全部 8 个栏目</span>
+      <span class="visible-count" id="visibleCount">显示全部 9 个栏目</span>
     </div>
   </div>
 
@@ -498,7 +645,7 @@
       <div class="grid">
         <article class="asset-card wide">
           <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-master-v3-approved.jpg" data-title="琪琪 · v3正式母版">
-            <img src="qiqi-master-v3-approved.jpg" alt="琪琪v3正式母版" loading="eager">
+            <img src="qiqi-master-v3-approved.jpg" alt="琪琪v3正式母版" loading="eager" decoding="async">
           </button>
           <div class="card-body">
             <div class="card-topline"><span class="pill">正式母版</span><span class="status">ACCEPTED</span></div>
@@ -540,13 +687,13 @@
       <div class="grid">
         <article class="asset-card full">
           <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-turnaround-detail-v1.jpg" data-title="琪琪 · 360°结构与细节">
-            <img src="hello-kitty-suit-turnaround-detail-v1.jpg" alt="琪琪360度结构与细节图" loading="lazy">
+            <img src="hello-kitty-suit-turnaround-detail-v1.jpg" alt="琪琪360度结构与细节图" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill yellow">360°设定</span><span class="status">ACCEPTED</span></div><h3>五视图与三组材质细节</h3><p>正面、三分之四、侧面、后侧与背面，并包含脸部、蝴蝶结和服装分件特写。</p><div class="meta-row"><span>2816 × 1584</span><span>五视图</span><span>结构 / 材质 / 生产参考</span></div><div class="fileline"><a href="hello-kitty-suit-turnaround-detail-v1.jpg" target="_blank">hello-kitty-suit-turnaround-detail-v1.jpg</a></div></div>
         </article>
         <article class="asset-card full">
           <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-ip-board-v1.jpg" data-title="琪琪 · IP角色系统总案板">
-            <img src="hello-kitty-suit-ip-board-v1.jpg" alt="琪琪IP角色系统总案板" loading="lazy">
+            <img src="hello-kitty-suit-ip-board-v1.jpg" alt="琪琪IP角色系统总案板" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill">综合案板</span><span class="status">ACCEPTED</span></div><h3>琪琪 · IP角色系统总案板</h3><p>母版、表情、动作、环视、细节和四色板整合在一张横版设计提案中。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9案板</span><span>提案 / 角色规范</span></div><div class="fileline"><a href="hello-kitty-suit-ip-board-v1.jpg" target="_blank">hello-kitty-suit-ip-board-v1.jpg</a></div></div>
         </article>
@@ -561,18 +708,18 @@
       <div class="grid">
         <article class="asset-card full">
           <button class="media-button media-square media-contain js-lightbox" data-src="hello-kitty-suit-expression-sheet-v1.jpg" data-title="琪琪 · 六宫格表情母图">
-            <img src="hello-kitty-suit-expression-sheet-v1.jpg" alt="琪琪六宫格表情母图" loading="lazy">
+            <img src="hello-kitty-suit-expression-sheet-v1.jpg" alt="琪琪六宫格表情母图" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill red">表情母图</span><span class="status">ACCEPTED</span></div><h3>琪琪 · 六宫格静态表情集</h3><p>脸型、发型、蝴蝶结、六根胡须与蓝黄服装保持一致，仅改变眼睑、眉毛、嘴形和手势。</p><div class="meta-row"><span>2048 × 2048</span><span>6个表情</span><span>白底表情设定</span></div><div class="fileline"><a href="hello-kitty-suit-expression-sheet-v1.jpg" target="_blank">hello-kitty-suit-expression-sheet-v1.jpg</a></div></div>
         </article>
       </div>
       <div class="emotion-grid" aria-label="琪琪六个表情名称">
-        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:0;--row:0" alt="琪琪元气问候"></div><div class="named-caption"><strong>01 元气问候</strong><span>挥手 · 闭眼微笑</span></div></article>
-        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:1;--row:0" alt="琪琪小小期待"></div><div class="named-caption"><strong>02 小小期待</strong><span>双手靠近 · 眼神期待</span></div></article>
-        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:2;--row:0" alt="琪琪开怀大笑"></div><div class="named-caption"><strong>03 开怀大笑</strong><span>开心 · 张嘴大笑</span></div></article>
-        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:0;--row:1" alt="琪琪吓一跳"></div><div class="named-caption"><strong>04 吓一跳</strong><span>圆嘴 · 双手举起</span></div></article>
-        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:1;--row:1" alt="琪琪委屈落泪"></div><div class="named-caption"><strong>05 委屈落泪</strong><span>泪眼 · 低落</span></div></article>
-        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:2;--row:1" alt="琪琪气鼓鼓"></div><div class="named-caption"><strong>06 气鼓鼓</strong><span>皱眉 · 双手叉腰</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:0;--row:0" alt="琪琪元气问候" loading="lazy" decoding="async"></div><div class="named-caption"><strong>01 元气问候</strong><span>挥手 · 闭眼微笑</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:1;--row:0" alt="琪琪小小期待" loading="lazy" decoding="async"></div><div class="named-caption"><strong>02 小小期待</strong><span>双手靠近 · 眼神期待</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:2;--row:0" alt="琪琪开怀大笑" loading="lazy" decoding="async"></div><div class="named-caption"><strong>03 开怀大笑</strong><span>开心 · 张嘴大笑</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:0;--row:1" alt="琪琪吓一跳" loading="lazy" decoding="async"></div><div class="named-caption"><strong>04 吓一跳</strong><span>圆嘴 · 双手举起</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:1;--row:1" alt="琪琪委屈落泪" loading="lazy" decoding="async"></div><div class="named-caption"><strong>05 委屈落泪</strong><span>泪眼 · 低落</span></div></article>
+        <article class="emotion-card"><div class="crop-frame expression"><img src="hello-kitty-suit-expression-sheet-v1.jpg" style="--col:2;--row:1" alt="琪琪气鼓鼓" loading="lazy" decoding="async"></div><div class="named-caption"><strong>06 气鼓鼓</strong><span>皱眉 · 双手叉腰</span></div></article>
       </div>
     </section>
 
@@ -584,18 +731,18 @@
       <div class="grid">
         <article class="asset-card full">
           <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-pose-sheet-v1.png" data-title="琪琪 · 六宫格动作Pose集">
-            <img src="hello-kitty-suit-pose-sheet-v1.png" alt="琪琪六宫格动作Pose集" loading="lazy">
+            <img src="hello-kitty-suit-pose-sheet-v1.png" alt="琪琪六宫格动作Pose集" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill">动作母图</span><span class="status">ACCEPTED</span></div><h3>琪琪 · 六宫格动作 Pose 集</h3><p>动作轮廓清楚，适合包装角标、公司IP页面、活动物料和社交贴纸。</p><div class="meta-row"><span>1536 × 1024</span><span>6个动作</span><span>高清PNG</span></div><div class="fileline"><a href="hello-kitty-suit-pose-sheet-v1.png" target="_blank">hello-kitty-suit-pose-sheet-v1.png</a></div></div>
         </article>
       </div>
       <div class="pose-grid" aria-label="琪琪六个动作名称">
-        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:0;--row:0" alt="琪琪标准站立"></div><div class="named-caption"><strong>01 标准站立</strong><span>头像 / 基础展示</span></div></article>
-        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:1;--row:0" alt="琪琪友好挥手"></div><div class="named-caption"><strong>02 友好挥手</strong><span>欢迎 / 问候</span></div></article>
-        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:2;--row:0" alt="琪琪讲解指引"></div><div class="named-caption"><strong>03 讲解指引</strong><span>客服 / 企业讲解</span></div></article>
-        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:0;--row:1" alt="琪琪开心庆祝"></div><div class="named-caption"><strong>04 开心庆祝</strong><span>活动 / 达成</span></div></article>
-        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:1;--row:1" alt="琪琪礼貌致意"></div><div class="named-caption"><strong>05 礼貌致意</strong><span>感谢 / 致歉</span></div></article>
-        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:2;--row:1" alt="琪琪鼓励点赞"></div><div class="named-caption"><strong>06 鼓励点赞</strong><span>认可 / 反馈</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:0;--row:0" alt="琪琪标准站立" loading="lazy" decoding="async"></div><div class="named-caption"><strong>01 标准站立</strong><span>头像 / 基础展示</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:1;--row:0" alt="琪琪友好挥手" loading="lazy" decoding="async"></div><div class="named-caption"><strong>02 友好挥手</strong><span>欢迎 / 问候</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:2;--row:0" alt="琪琪讲解指引" loading="lazy" decoding="async"></div><div class="named-caption"><strong>03 讲解指引</strong><span>客服 / 企业讲解</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:0;--row:1" alt="琪琪开心庆祝" loading="lazy" decoding="async"></div><div class="named-caption"><strong>04 开心庆祝</strong><span>活动 / 达成</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:1;--row:1" alt="琪琪礼貌致意" loading="lazy" decoding="async"></div><div class="named-caption"><strong>05 礼貌致意</strong><span>感谢 / 致歉</span></div></article>
+        <article class="pose-card"><div class="crop-frame pose"><img src="hello-kitty-suit-pose-sheet-v1.png" style="--col:2;--row:1" alt="琪琪鼓励点赞" loading="lazy" decoding="async"></div><div class="named-caption"><strong>06 鼓励点赞</strong><span>认可 / 反馈</span></div></article>
       </div>
     </section>
 
@@ -607,25 +754,25 @@
       <div class="grid">
         <article class="asset-card">
             <button class="media-button media-square media-contain js-lightbox" data-src="qiqi-wave-jump-sticker-v1.gif" data-title="动态表情：挥手跳跃（轻量版）">
-              <img src="qiqi-wave-jump-sticker-v1.gif" alt="琪琪挥手跳跃动态表情轻量版" loading="lazy">
+              <img src="qiqi-wave-jump-sticker-v1.gif" alt="琪琪挥手跳跃动态表情轻量版" loading="lazy" decoding="async">
           </button>
             <div class="card-body"><div class="card-topline"><span class="pill red">动态表情</span><span class="status">LOOP</span></div><h3>挥手跳跃 · 轻量版</h3><p>适合聊天直接发送，保留淡粉蓝背景与8帧关键动作。</p><div class="meta-row"><span>512 × 512</span><span>8帧</span><span>1.1秒</span><span>0.91MB</span></div><div class="fileline"><a href="qiqi-wave-jump-sticker-v1.gif" target="_blank">qiqi-wave-jump-sticker-v1.gif</a></div></div>
         </article>
         <article class="asset-card">
             <button class="media-button media-square media-contain js-lightbox" data-src="qiqi-wave-jump-sticker-hq-v1.gif" data-title="动态表情：挥手跳跃（高清版）">
-              <img src="qiqi-wave-jump-sticker-hq-v1.gif" alt="琪琪挥手跳跃动态表情高清版" loading="lazy">
+              <img src="qiqi-wave-jump-sticker-hq-v1.gif" alt="琪琪挥手跳跃动态表情高清版" loading="lazy" decoding="async">
           </button>
             <div class="card-body"><div class="card-topline"><span class="pill red">动态表情</span><span class="status">LOOP</span></div><h3>挥手跳跃 · 高清版</h3><p>适合演示、收藏与较大尺寸聊天窗口，动作内容与轻量版一致。</p><div class="meta-row"><span>640 × 640</span><span>8帧</span><span>1.1秒</span><span>1.52MB</span></div><div class="fileline"><a href="qiqi-wave-jump-sticker-hq-v1.gif" target="_blank">qiqi-wave-jump-sticker-hq-v1.gif</a></div></div>
         </article>
         <article class="asset-card wide">
             <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-wave-jump-spritesheet-v1.jpg" data-title="挥手跳跃 · 8帧动作序列母图">
-              <img src="qiqi-wave-jump-spritesheet-v1.jpg" alt="琪琪挥手跳跃8帧动作序列图" loading="lazy">
+              <img src="qiqi-wave-jump-spritesheet-v1.jpg" alt="琪琪挥手跳跃8帧动作序列图" loading="lazy" decoding="async">
           </button>
             <div class="card-body"><div class="card-topline"><span class="pill gray">动画制作资料</span><span class="status">SOURCE</span></div><h3>挥手跳跃 · 8帧动作序列母图</h3><p>站立、屈膝、起跳、腾空、挥手、下降、落地与回到起始姿势。</p><div class="meta-row"><span>3136 × 1344</span><span>4 × 2关键帧</span></div><div class="fileline"><a href="qiqi-wave-jump-spritesheet-v1.jpg" target="_blank">qiqi-wave-jump-spritesheet-v1.jpg</a></div></div>
         </article>
         <article class="asset-card">
             <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-wave-jump-gif-qa-v1.jpg" data-title="挥手跳跃 · GIF质检联系表">
-              <img src="qiqi-wave-jump-gif-qa-v1.jpg" alt="琪琪挥手跳跃GIF质检联系表" loading="lazy">
+              <img src="qiqi-wave-jump-gif-qa-v1.jpg" alt="琪琪挥手跳跃GIF质检联系表" loading="lazy" decoding="async">
           </button>
             <div class="card-body"><div class="card-topline"><span class="pill gray">动画QA</span><span class="status">PASS</span></div><h3>挥手跳跃 · 质检联系表</h3><p>带1–8帧编号，用于核对动作顺序、角色一致性和首尾闭环。</p><div class="meta-row"><span>1084 × 548</span><span>制作过程</span></div><div class="fileline"><a href="qiqi-wave-jump-gif-qa-v1.jpg" target="_blank">qiqi-wave-jump-gif-qa-v1.jpg</a></div></div>
         </article>
@@ -640,7 +787,7 @@
       <div class="grid">
         <article class="asset-card full">
           <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-inspiration-analysis-board-v1.jpg" data-title="琪琪 · 灵感与视觉语言分析板">
-            <img src="qiqi-inspiration-analysis-board-v1.jpg" alt="琪琪灵感与视觉语言分析板" loading="lazy">
+            <img src="qiqi-inspiration-analysis-board-v1.jpg" alt="琪琪灵感与视觉语言分析板" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill">灵感分析</span><span class="status">ACCEPTED</span></div><h3>琪琪 · 灵感与视觉语言分析板</h3><p>月光蓝、奶油黄、珠光白、果冻粉与薄荷绿共同组成泡泡世界的扩展语汇。</p><div class="meta-row"><span>2816 × 1584</span><span>色板</span><span>材质</span><span>造型母题</span><span>场景缩略图</span></div><div class="fileline"><a href="qiqi-inspiration-analysis-board-v1.jpg" target="_blank">qiqi-inspiration-analysis-board-v1.jpg</a></div></div>
         </article>
@@ -655,25 +802,25 @@
       <div class="grid">
         <article class="asset-card tall">
           <button class="media-button media-portrait js-lightbox" data-src="qiqi-key-visual-wish-bubble-station-v1.jpg" data-title="琪琪 · 心愿泡泡总站">
-            <img src="qiqi-key-visual-wish-bubble-station-v1.jpg" alt="琪琪心愿泡泡总站主视觉" loading="lazy">
+            <img src="qiqi-key-visual-wish-bubble-station-v1.jpg" alt="琪琪心愿泡泡总站主视觉" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill red">品牌主视觉</span><span class="status">ACCEPTED</span></div><h3>心愿泡泡总站</h3><p>琪琪手捧微缩心愿泡泡，泡泡拱门、云路与列车共同建立世界入口。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>官网 / 包装 / 海报</span></div><div class="fileline"><a href="qiqi-key-visual-wish-bubble-station-v1.jpg" target="_blank">qiqi-key-visual-wish-bubble-station-v1.jpg</a></div></div>
         </article>
         <article class="asset-card wide">
           <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-moon-repair-v1.jpg" data-title="琪琪 · 月光修补师">
-            <img src="qiqi-scene-moon-repair-v1.jpg" alt="琪琪修补月亮场景" loading="lazy">
+            <img src="qiqi-scene-moon-repair-v1.jpg" alt="琪琪修补月亮场景" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill yellow">叙事场景</span><span class="status">ACCEPTED</span></div><h3>月光修补师</h3><p>琪琪用发光工具修补裂开的弯月，表达“让每一种小情绪被看见”的角色使命。</p><div class="meta-row"><span>2496 × 1664</span><span>3:2横版</span><span>漫画封面 / 节日礼盒</span></div><div class="fileline"><a href="qiqi-scene-moon-repair-v1.jpg" target="_blank">qiqi-scene-moon-repair-v1.jpg</a></div></div>
         </article>
         <article class="asset-card wide">
           <button class="media-button media-landscape js-lightbox" data-src="qiqi-scene-inspiration-lab-v1.jpg" data-title="琪琪 · 灵感泡泡实验室">
-            <img src="qiqi-scene-inspiration-lab-v1.jpg" alt="琪琪灵感泡泡实验室场景" loading="lazy">
+            <img src="qiqi-scene-inspiration-lab-v1.jpg" alt="琪琪灵感泡泡实验室场景" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill">企业应用</span><span class="status">ACCEPTED</span></div><h3>灵感泡泡实验室</h3><p>玻璃穹顶与薄荷设备延续世界材质，右侧保留大面积公司文案安全区。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9横版</span><span>创新 / 招聘 / 企业文化</span></div><div class="fileline"><a href="qiqi-scene-inspiration-lab-v1.jpg" target="_blank">qiqi-scene-inspiration-lab-v1.jpg</a></div></div>
         </article>
         <article class="asset-card tall">
           <button class="media-button media-portrait js-lightbox" data-src="qiqi-scene-midnight-supply-shop-v1.jpg" data-title="琪琪 · 午夜心情补给铺">
-            <img src="qiqi-scene-midnight-supply-shop-v1.jpg" alt="琪琪午夜心情补给铺场景" loading="lazy">
+            <img src="qiqi-scene-midnight-supply-shop-v1.jpg" alt="琪琪午夜心情补给铺场景" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill red">生活场景</span><span class="status">ACCEPTED</span></div><h3>午夜心情补给铺</h3><p>雨夜小店里，琪琪递出一颗暖光心愿泡泡，适合治愈社交内容与包装背面故事。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>社交 / 零售 / 陈列</span></div><div class="fileline"><a href="qiqi-scene-midnight-supply-shop-v1.jpg" target="_blank">qiqi-scene-midnight-supply-shop-v1.jpg</a></div></div>
         </article>
@@ -685,27 +832,194 @@
       </div>
     </section>
 
+    <section class="gallery-section birthday-section" id="birthday-special" data-category="birthday">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">08 / Birthday Special Chapter</div>
+          <h2 class="birthday-title">下一站，愿望先给妈妈</h2>
+        </div>
+        <p>琪琪·妈妈生日特别限定 A+C 融合篇。A负责“终于轮到妈妈被祝福”的情感，C负责让愿望乘月光列车抵达；全章坚持琪琪与心愿泡泡占70%情感重心，列车与云轨占30%世界观。</p>
+      </div>
+
+      <div class="birthday-kv-layout">
+        <article class="asset-card" id="birthday-kv">
+          <button class="media-button media-portrait media-contain js-lightbox" data-src="qiqi-birthday-kv-ac-next-stop-mom-v1.jpg" data-title="琪琪生日限定 · 下一站，愿望先给妈妈">
+            <img src="qiqi-birthday-kv-ac-next-stop-mom-v1.jpg" alt="琪琪妈妈生日限定A加C融合主视觉" loading="lazy" decoding="async">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">限定主视觉</span><span class="status">APPROVED</span></div><h3>下一站，愿望先给妈妈</h3><p>月光列车刚刚到站，琪琪把发光的双层心愿泡泡递向妈妈伸来的双手；主标题采用与场景融合的手绘艺术字。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>A+C融合终稿</span></div><div class="fileline"><a href="qiqi-birthday-kv-ac-next-stop-mom-v1.jpg" target="_blank">qiqi-birthday-kv-ac-next-stop-mom-v1.jpg</a></div></div>
+        </article>
+        <div class="birthday-copy-panel">
+          <div>
+            <div class="chapter-no">SPECIAL STORY · 妈妈生日限定</div>
+            <h3>愿望<br>正在送达</h3>
+            <p class="quote">“妈妈把愿望留给我们，今天把愿望还给妈妈。”</p>
+            <p class="story-note">妈妈留下空白愿望，琪琪把家人的“谢谢、辛苦了、我爱你”收进双层泡泡，在零点前乘月光列车送到妈妈的愿望站。</p>
+          </div>
+          <ol class="birthday-flow" aria-label="生日限定故事路径">
+            <li>发现妈妈留下的空白愿望</li>
+            <li>收集家人没有说出口的感谢</li>
+            <li>抱着双层泡泡登上月光列车</li>
+            <li>穿过回忆云海，在零点抵达</li>
+            <li>把愿望交还给妈妈，全城亮灯</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="birthday-subsection">
+        <div class="birthday-subhead">
+          <div><div class="section-kicker">01 · Limited Character</div><h3>生日限定母版与360°八视图</h3></div>
+          <p>琪琪永久身份锚点全部保持不变，只叠加短款珍珠粉透明云边肩披与香槟金心愿火苗徽章。</p>
+        </div>
+        <article class="asset-card full">
+          <button class="media-button media-two-one media-contain js-lightbox" data-src="qiqi-birthday-master-turnaround-ac-v1.jpg" data-title="琪琪生日限定 · 母版与360°八视图">
+            <img src="qiqi-birthday-master-turnaround-ac-v1.jpg" alt="琪琪妈妈生日限定母版360度八视图" loading="lazy" decoding="async">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill yellow">限定母版</span><span class="status">ACCEPTED</span></div><h3>360°八视图 · 可拆卸生日叠加层</h3><p>从正面开始按连续45°旋转至左前侧，完整验证蝴蝶结物理侧别、肩披后片、徽章、帽兜与头发层级。</p><div class="meta-row"><span>2912 × 1456</span><span>8 × 45°</span><span>搪胶 / 微绒 / 透明树脂</span></div><div class="fileline"><a href="qiqi-birthday-master-turnaround-ac-v1.jpg" target="_blank">qiqi-birthday-master-turnaround-ac-v1.jpg</a></div></div>
+        </article>
+      </div>
+
+      <div class="birthday-subsection">
+        <div class="birthday-subhead">
+          <div><div class="section-kicker">02 · Birthday Expressions</div><h3>六个送给妈妈的表情</h3></div>
+          <p>完整母图只加载一次，中文表情名独立放在图外，便于阅读、检索与后续拆分，不重复裁切大图。</p>
+        </div>
+        <article class="asset-card full">
+          <button class="media-button media-three-two media-contain js-lightbox" data-src="qiqi-birthday-expression-sheet-ac-v1.jpg" data-title="琪琪生日限定 · 六个表情">
+            <img src="qiqi-birthday-expression-sheet-ac-v1.jpg" alt="琪琪妈妈生日限定六个表情母图" loading="lazy" decoding="async">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">生日表情母图</span><span class="status">ACCEPTED</span></div><h3>从发现空白到愿望送达</h3><p>上排左至右、下排左至右对应下方六个正式名称。</p><div class="meta-row"><span>2496 × 1664</span><span>3 × 2六宫格</span><span>外部中文命名</span></div><div class="fileline"><a href="qiqi-birthday-expression-sheet-ac-v1.jpg" target="_blank">qiqi-birthday-expression-sheet-ac-v1.jpg</a></div></div>
+        </article>
+        <div class="birthday-label-grid" aria-label="琪琪妈妈生日限定六个表情名称">
+          <div class="birthday-label"><b>01 · 故事开场</b><strong>妈妈的愿望是空的</strong><span>惊讶 · 心疼 · 发现</span></div>
+          <div class="birthday-label"><b>02 · 秘密准备</b><strong>偷偷装满祝福</strong><span>俏皮眨眼 · 小秘密</span></div>
+          <div class="birthday-label"><b>03 · 旅程启动</b><strong>准备发车</strong><span>认真确认 · 蓄势待发</span></div>
+          <div class="birthday-label"><b>04 · 靠近终点</b><strong>马上到站</strong><span>开怀大笑 · 期待相见</span></div>
+          <div class="birthday-label"><b>05 · 生日时刻</b><strong>妈妈请许愿</strong><span>温柔邀请 · 轻声祝福</span></div>
+          <div class="birthday-label"><b>06 · 情感落点</b><strong>愿望送达啦</strong><span>幸福落泪 · 被爱接住</span></div>
+        </div>
+      </div>
+
+      <div class="birthday-subsection">
+        <div class="birthday-subhead">
+          <div><div class="section-kicker">03 · Wish Delivery Poses</div><h3>六个送愿动作 Pose</h3></div>
+          <p>六个动作首尾相连就是一篇无对白生日小漫画，泡泡和列车只承担叙事，不改变琪琪本体。</p>
+        </div>
+        <article class="asset-card full">
+          <button class="media-button media-three-two media-contain js-lightbox" data-src="qiqi-birthday-pose-sheet-ac-v1.jpg" data-title="琪琪生日限定 · 六个送愿动作">
+            <img src="qiqi-birthday-pose-sheet-ac-v1.jpg" alt="琪琪妈妈生日限定六个动作Pose母图" loading="lazy" decoding="async">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill">送愿动作母图</span><span class="status">ACCEPTED</span></div><h3>从检查泡泡到跃起送愿</h3><p>上排左至右、下排左至右对应下方六个正式动作名称。</p><div class="meta-row"><span>2496 × 1664</span><span>3 × 2六宫格</span><span>连续叙事动作</span></div><div class="fileline"><a href="qiqi-birthday-pose-sheet-ac-v1.jpg" target="_blank">qiqi-birthday-pose-sheet-ac-v1.jpg</a></div></div>
+        </article>
+        <div class="birthday-label-grid" aria-label="琪琪妈妈生日限定六个动作名称">
+          <div class="birthday-label"><b>01 · CHECK</b><strong>检查空白心愿泡泡</strong><span>蹲下 · 双手确认</span></div>
+          <div class="birthday-label"><b>02 · COLLECT</b><strong>双手收集金色祝福</strong><span>张开双臂 · 光点汇聚</span></div>
+          <div class="birthday-label"><b>03 · BOARD</b><strong>抱着泡泡踏上列车</strong><span>抬脚登车 · 护住愿望</span></div>
+          <div class="birthday-label"><b>04 · WAVE</b><strong>从车窗探身挥手</strong><span>旅程途中 · 挥手报平安</span></div>
+          <div class="birthday-label"><b>05 · ARRIVE</b><strong>抱着泡泡走下月台</strong><span>走向妈妈 · 即将交付</span></div>
+          <div class="birthday-label"><b>06 · DELIVER</b><strong>跃起送出愿望</strong><span>腾空递出 · 愿望交付</span></div>
+        </div>
+      </div>
+
+      <div class="birthday-subsection">
+        <div class="birthday-subhead">
+          <div><div class="section-kicker">04 · Motion Sticker</div><h3>动态表情《愿望正在送达》</h3></div>
+          <p>关键帧制作板与最终GIF并列展示；512×512、8帧、1.25秒无限循环，首尾完全闭环。</p>
+        </div>
+        <div class="birthday-gif-layout">
+          <article class="asset-card">
+            <button class="media-button media-two-one media-contain js-lightbox" data-src="qiqi-birthday-animation-spritesheet-v1.jpg" data-title="琪琪生日限定 · 愿望正在送达关键帧">
+              <img src="qiqi-birthday-animation-spritesheet-v1.jpg" alt="琪琪愿望正在送达八帧动画序列" loading="lazy" decoding="async">
+            </button>
+            <div class="card-body"><div class="card-topline"><span class="pill gray">动画制作板</span><span class="status">SOURCE</span></div><h3>8帧动作序列</h3><p>站立、屈膝、起跳、双臂抬起、腾空挥手、心光点亮、下降和回到初始姿势。</p><div class="meta-row"><span>2912 × 1456</span><span>4 × 2关键帧</span><span>循环母图</span></div><div class="fileline"><a href="qiqi-birthday-animation-spritesheet-v1.jpg" target="_blank">qiqi-birthday-animation-spritesheet-v1.jpg</a></div></div>
+          </article>
+          <article class="asset-card">
+            <button class="media-button media-square media-contain js-lightbox" data-src="qiqi-birthday-wish-delivery-sticker-v1.gif" data-title="琪琪生日限定动态表情 · 愿望正在送达">
+              <img src="qiqi-birthday-wish-delivery-sticker-v1.gif" alt="琪琪生日限定愿望正在送达动态表情" loading="lazy" decoding="async">
+            </button>
+            <div class="card-body"><div class="card-topline"><span class="pill red">生日动态表情</span><span class="status">LOOP · PASS</span></div><h3>愿望正在送达</h3><p>琪琪上下跳跃并挥舞双臂，胸前心光亮起；角色轮廓、白色帽兜和手脚边缘均已通过视觉质检。</p><div class="meta-row"><span>512 × 512</span><span>8帧</span><span>1.25秒</span><span>无限循环</span></div><div class="fileline"><a href="qiqi-birthday-wish-delivery-sticker-v1.gif" target="_blank">轻量版GIF</a> · <a href="qiqi-birthday-wish-delivery-sticker-hq-v1.gif" target="_blank">640×640高清GIF</a></div></div>
+          </article>
+        </div>
+      </div>
+
+      <div class="birthday-subsection">
+        <div class="birthday-subhead">
+          <div><div class="section-kicker">05 · Limited Visual Language</div><h3>生日限定视觉语言</h3></div>
+          <p>外层珍珠粉、内层月光蓝、香槟金光路和暖象牙留白，共同支撑“被送回妈妈身边的愿望”。</p>
+        </div>
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-birthday-visual-language-board-v1.jpg" data-title="琪琪生日限定 · 视觉语言分析板">
+            <img src="qiqi-birthday-visual-language-board-v1.jpg" alt="琪琪妈妈生日限定视觉语言分析板" loading="lazy" decoding="async">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill yellow">视觉语言</span><span class="status">ACCEPTED</span></div><h3>泡泡、火苗、云轨与暖光窗</h3><p>材质样本、限定色彩、核心道具与场景母题统一收录，所有图中文字继续遵守艺术字体规范。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9分析板</span><span>材质 / 色彩 / 符号</span></div><div class="fileline"><a href="qiqi-birthday-visual-language-board-v1.jpg" target="_blank">qiqi-birthday-visual-language-board-v1.jpg</a></div></div>
+        </article>
+      </div>
+
+      <div class="birthday-subsection">
+        <div class="birthday-subhead">
+          <div><div class="section-kicker">06 · Four-Scene Story</div><h3>从空白愿望到零点抵达</h3></div>
+          <p>三张旅途场景与本章首屏主视觉共同构成四幕故事；到站主视觉不重复加载，通过第四幕链接回看。</p>
+        </div>
+        <div class="birthday-story-grid">
+          <article class="asset-card">
+            <button class="media-button media-portrait media-contain js-lightbox" data-src="qiqi-birthday-scene-empty-wish-v1.jpg" data-title="生日故事01 · 空白的愿望">
+              <img src="qiqi-birthday-scene-empty-wish-v1.jpg" alt="琪琪发现妈妈留下的空白愿望" loading="lazy" decoding="async">
+            </button>
+            <div class="card-body"><div class="card-topline"><span class="pill red">故事 01</span><span class="status">ACCEPTED</span></div><h3>空白的愿望</h3><p>琪琪发现妈妈总把愿望留给家人，只有属于妈妈的那一颗仍然空着。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>故事开场</span></div><div class="fileline"><a href="qiqi-birthday-scene-empty-wish-v1.jpg" target="_blank">qiqi-birthday-scene-empty-wish-v1.jpg</a></div></div>
+          </article>
+          <article class="asset-card">
+            <button class="media-button media-portrait media-contain js-lightbox" data-src="qiqi-birthday-scene-moonlight-departure-v1.jpg" data-title="生日故事02 · 月光发车">
+              <img src="qiqi-birthday-scene-moonlight-departure-v1.jpg" alt="琪琪抱着心愿泡泡乘月光列车出发" loading="lazy" decoding="async">
+            </button>
+            <div class="card-body"><div class="card-topline"><span class="pill yellow">故事 02</span><span class="status">ACCEPTED</span></div><h3>月光发车</h3><p>家人的感谢装进泡泡，琪琪抱紧它踏上列车，沿香槟金云轨驶向妈妈的愿望站。</p><div class="meta-row"><span>1856 × 2320</span><span>4:5竖版</span><span>旅程启动</span></div><div class="fileline"><a href="qiqi-birthday-scene-moonlight-departure-v1.jpg" target="_blank">qiqi-birthday-scene-moonlight-departure-v1.jpg</a></div></div>
+          </article>
+          <article class="asset-card story-wide">
+            <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-birthday-scene-memory-cloud-v1.jpg" data-title="生日故事03 · 穿过回忆云海">
+              <img src="qiqi-birthday-scene-memory-cloud-v1.jpg" alt="琪琪乘列车穿过妈妈与家人的回忆云海" loading="lazy" decoding="async">
+            </button>
+            <div class="card-body"><div class="card-topline"><span class="pill">故事 03</span><span class="status">ACCEPTED</span></div><h3>穿过回忆云海</h3><p>牵手、照顾、等待和陪伴化成一扇扇暖光车窗，泡泡里的金色爱心逐渐被点亮。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9横版</span><span>世界观展开</span></div><div class="fileline"><a href="qiqi-birthday-scene-memory-cloud-v1.jpg" target="_blank">qiqi-birthday-scene-memory-cloud-v1.jpg</a></div></div>
+          </article>
+          <a class="birthday-arrival-link" href="#birthday-kv">
+            <div><small>故事 04 · ARRIVAL</small><strong>下一站，愿望先给妈妈</strong></div>
+            <span>回到本章首屏主视觉，查看零点到站与愿望交付 →</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="birthday-subsection">
+        <div class="birthday-subhead">
+          <div><div class="section-kicker">07 · Packaging & Merch</div><h3>月光泡泡礼盒与周边</h3></div>
+          <p>抽出车厢式内盒就像列车驶入妈妈的愿望站；包装展开后可直接成为手办月台与云轨底座。</p>
+        </div>
+        <article class="asset-card full">
+          <button class="media-button media-landscape media-contain js-lightbox" data-src="qiqi-birthday-packaging-merch-board-v1.jpg" data-title="琪琪生日限定 · 包装与周边案板">
+            <img src="qiqi-birthday-packaging-merch-board-v1.jpg" alt="琪琪妈妈生日限定礼盒与周边产品案板" loading="lazy" decoding="async">
+          </button>
+          <div class="card-body"><div class="card-topline"><span class="pill red">包装与周边</span><span class="status">ACCEPTED</span></div><h3>可发车的月光泡泡礼盒</h3><p>收录车厢开窗礼盒、云轨展示座、泡泡挂件、纪念徽章、贴纸、列车摆件与生日月票卡。</p><div class="meta-row"><span>2816 × 1584</span><span>16:9产品案板</span><span>礼盒 / 手办 / 周边</span></div><div class="fileline"><a href="qiqi-birthday-packaging-merch-board-v1.jpg" target="_blank">qiqi-birthday-packaging-merch-board-v1.jpg</a></div></div>
+        </article>
+      </div>
+    </section>
+
     <section class="gallery-section" id="archive" data-category="archive">
       <div class="section-head">
-        <div><div class="section-kicker">08 / Evolution Archive</div><h2>设计迭代与内部资料</h2></div>
+        <div><div class="section-kicker">09 / Evolution Archive</div><h2>设计迭代与内部资料</h2></div>
         <p>保留从统一Q版潮玩到正式 v3 手办材质的演进。v3候选图与正式母版内容相同，仍作为版本档案列出。</p>
       </div>
       <div class="grid">
         <article class="asset-card">
           <button class="media-button media-square media-contain js-lightbox" data-src="hello-kitty-suit-mascot-v2.jpg" data-title="琪琪角色母版 v2 · 统一Q版">
-            <img src="hello-kitty-suit-mascot-v2.jpg" alt="琪琪角色母版v2" loading="lazy">
+            <img src="hello-kitty-suit-mascot-v2.jpg" alt="琪琪角色母版v2" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill gray">历史母版</span><span class="status">ACCEPTED</span></div><h3>v2 · 统一Q版潮玩</h3><p>确立大头短身、白色猫耳帽兜、红蝴蝶结与蓝黄服装的统一角色语言。</p><div class="meta-row"><span>2048 × 2048</span><span>角色系统起点</span></div><div class="fileline"><a href="hello-kitty-suit-mascot-v2.jpg" target="_blank">hello-kitty-suit-mascot-v2.jpg</a></div></div>
         </article>
         <article class="asset-card">
           <button class="media-button media-square media-contain js-lightbox" data-src="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" data-title="琪琪 v3 · 泡泡玛特质感候选">
-            <img src="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" alt="琪琪v3手办质感候选" loading="lazy">
+            <img src="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" alt="琪琪v3手办质感候选" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill gray">v3候选档案</span><span class="status">PROMOTED</span></div><h3>v3 · 手办质感候选</h3><p>材质与制造细节升级后被提升为正式母版；内容与 qiqi-master-v3-approved.jpg 相同。</p><div class="meta-row"><span>2048 × 2048</span><span>同图归档</span></div><div class="fileline"><a href="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" target="_blank">hello-kitty-suit-mascot-v3-arttoy-candidate.jpg</a></div></div>
         </article>
         <article class="asset-card full">
           <button class="media-button media-landscape media-contain js-lightbox" data-src="hello-kitty-suit-pose-sheet-upload-ref.jpg" data-title="动作Pose集 · 上传参考压缩版">
-            <img src="hello-kitty-suit-pose-sheet-upload-ref.jpg" alt="琪琪动作Pose集上传参考压缩版" loading="lazy">
+            <img src="hello-kitty-suit-pose-sheet-upload-ref.jpg" alt="琪琪动作Pose集上传参考压缩版" loading="lazy" decoding="async">
           </button>
           <div class="card-body"><div class="card-topline"><span class="pill gray">内部参考</span><span class="status" style="color:#78818d">LOW-RES</span></div><h3>动作 Pose · 上传参考压缩版</h3><p>用于后续生成工具上传的1200×800低清参考；高清展示以PNG动作母图为准。</p><div class="meta-row"><span>1200 × 800</span><span>内部制作资料</span></div><div class="fileline"><a href="hello-kitty-suit-pose-sheet-upload-ref.jpg" target="_blank">hello-kitty-suit-pose-sheet-upload-ref.jpg</a></div></div>
         </article>
@@ -713,10 +1027,10 @@
     </section>
 
     <section class="gallery-section" data-category="all">
-      <div class="section-head"><div><div class="section-kicker">Asset Index</div><h2>完整文件索引</h2></div><p>共17个纳入图册的图片/GIF文件。点击文件名可直接打开高清原图。</p></div>
+      <div class="section-head"><div><div class="section-kicker">Asset Index</div><h2>完整文件索引</h2></div><p>共29个已落盘图片/GIF文件。点击文件名可直接打开高清原图。</p></div>
       <div class="index-box">
         <details>
-          <summary>展开全部 17 个文件</summary>
+          <summary>展开全部 29 个文件</summary>
           <div class="table-wrap">
             <table>
               <thead><tr><th>#</th><th>资产名称</th><th>文件</th><th>尺寸</th><th>分类</th></tr></thead>
@@ -738,6 +1052,18 @@
                 <tr><td>15</td><td>历史母版 v2</td><td><a href="hello-kitty-suit-mascot-v2.jpg" target="_blank"><code>hello-kitty-suit-mascot-v2.jpg</code></a></td><td>2048×2048</td><td>迭代</td></tr>
                 <tr><td>16</td><td>v3 手办质感候选</td><td><a href="hello-kitty-suit-mascot-v3-arttoy-candidate.jpg" target="_blank"><code>hello-kitty-suit-mascot-v3-arttoy-candidate.jpg</code></a></td><td>2048×2048</td><td>迭代</td></tr>
                 <tr><td>17</td><td>动作Pose上传参考</td><td><a href="hello-kitty-suit-pose-sheet-upload-ref.jpg" target="_blank"><code>hello-kitty-suit-pose-sheet-upload-ref.jpg</code></a></td><td>1200×800</td><td>内部资料</td></tr>
+                <tr><td>18</td><td>妈妈生日限定 A+C 融合主视觉</td><td><a href="qiqi-birthday-kv-ac-next-stop-mom-v1.jpg" target="_blank"><code>qiqi-birthday-kv-ac-next-stop-mom-v1.jpg</code></a></td><td>1856×2320</td><td>生日限定</td></tr>
+                <tr><td>19</td><td>生日限定母版与360°八视图</td><td><a href="qiqi-birthday-master-turnaround-ac-v1.jpg" target="_blank"><code>qiqi-birthday-master-turnaround-ac-v1.jpg</code></a></td><td>2912×1456</td><td>生日限定</td></tr>
+                <tr><td>20</td><td>生日限定六个表情</td><td><a href="qiqi-birthday-expression-sheet-ac-v1.jpg" target="_blank"><code>qiqi-birthday-expression-sheet-ac-v1.jpg</code></a></td><td>2496×1664</td><td>生日限定</td></tr>
+                <tr><td>21</td><td>生日限定六个送愿动作</td><td><a href="qiqi-birthday-pose-sheet-ac-v1.jpg" target="_blank"><code>qiqi-birthday-pose-sheet-ac-v1.jpg</code></a></td><td>2496×1664</td><td>生日限定</td></tr>
+                <tr><td>22</td><td>愿望正在送达 · 8帧动作序列</td><td><a href="qiqi-birthday-animation-spritesheet-v1.jpg" target="_blank"><code>qiqi-birthday-animation-spritesheet-v1.jpg</code></a></td><td>2912×1456</td><td>生日动画</td></tr>
+                <tr><td>23</td><td>愿望正在送达 · 动态表情</td><td><a href="qiqi-birthday-wish-delivery-sticker-v1.gif" target="_blank"><code>qiqi-birthday-wish-delivery-sticker-v1.gif</code></a></td><td>512×512</td><td>生日动画</td></tr>
+                <tr><td>24</td><td>愿望正在送达 · 高清动态表情</td><td><a href="qiqi-birthday-wish-delivery-sticker-hq-v1.gif" target="_blank"><code>qiqi-birthday-wish-delivery-sticker-hq-v1.gif</code></a></td><td>640×640</td><td>生日动画</td></tr>
+                <tr><td>25</td><td>生日限定视觉语言</td><td><a href="qiqi-birthday-visual-language-board-v1.jpg" target="_blank"><code>qiqi-birthday-visual-language-board-v1.jpg</code></a></td><td>2816×1584</td><td>生日限定</td></tr>
+                <tr><td>26</td><td>生日故事01 · 空白的愿望</td><td><a href="qiqi-birthday-scene-empty-wish-v1.jpg" target="_blank"><code>qiqi-birthday-scene-empty-wish-v1.jpg</code></a></td><td>1856×2320</td><td>生日场景</td></tr>
+                <tr><td>27</td><td>生日故事02 · 月光发车</td><td><a href="qiqi-birthday-scene-moonlight-departure-v1.jpg" target="_blank"><code>qiqi-birthday-scene-moonlight-departure-v1.jpg</code></a></td><td>1856×2320</td><td>生日场景</td></tr>
+                <tr><td>28</td><td>生日故事03 · 穿过回忆云海</td><td><a href="qiqi-birthday-scene-memory-cloud-v1.jpg" target="_blank"><code>qiqi-birthday-scene-memory-cloud-v1.jpg</code></a></td><td>2816×1584</td><td>生日场景</td></tr>
+                <tr><td>29</td><td>生日限定包装与周边案板</td><td><a href="qiqi-birthday-packaging-merch-board-v1.jpg" target="_blank"><code>qiqi-birthday-packaging-merch-board-v1.jpg</code></a></td><td>2816×1584</td><td>生日产品</td></tr>
               </tbody>
             </table>
           </div>
@@ -746,8 +1072,8 @@
     </section>
 
     <footer class="footer">
-      <span>琪琪 IP视觉资产馆 · 在线视觉档案 · 角色身份基准：qiqi-master-v3-approved.jpg</span>
-      <span>当前用途：非商用概念设计 · clearance_status: not_checked</span>
+      <span>琪琪 IP视觉资产馆 · 在线视觉档案 · 角色身份基准：qiqi-master-v3-approved.jpg · 更新于 2026-07-31</span>
+      <span>妈妈生日特别限定已加入 · 当前用途：非商用概念设计 · clearance_status: not_checked</span>
     </footer>
   </main>
 
@@ -761,7 +1087,7 @@
     </div>
     <div class="lightbox-stage" id="lightboxStage">
       <button class="nav-btn prev" id="lightboxPrev" aria-label="上一张">‹</button>
-      <img id="lightboxImage" alt="">
+      <img id="lightboxImage" alt="" decoding="async">
       <button class="nav-btn next" id="lightboxNext" aria-label="下一张">›</button>
     </div>
     <div class="lightbox-help">滚轮缩放 · 放大后拖动 · ← → 切换 · Esc 关闭</div>
@@ -785,7 +1111,7 @@
           section.hidden = !show;
           if (show) visible += 1;
         });
-        countLabel.textContent = filter === 'all' ? '显示全部 8 个栏目' : `显示 ${visible} 个相关栏目`;
+        countLabel.textContent = filter === 'all' ? '显示全部 9 个栏目' : `显示 ${visible} 个相关栏目`;
         const first = sections.find(section => !section.hidden);
         if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }));
