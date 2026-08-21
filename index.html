@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
   <title>琪琪 · IP视觉资产馆</title>
   <style>
     :root {
@@ -254,6 +255,8 @@
     .media-button:hover::after, .media-button:focus-visible::after { opacity: 1; transform: translateY(0); }
     .media-button img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
     .media-button:hover img { transform: scale(1.02); }
+    a.media-button { display: block; cursor: pointer; text-decoration: none; color: inherit; }
+    a.media-button::after { content: "进入互动作品"; }
     .media-square { aspect-ratio: 1; }
     .media-landscape { aspect-ratio: 16 / 9; }
     .media-portrait { aspect-ratio: 4 / 5; }
@@ -577,6 +580,7 @@
           <a href="#master">角色母版</a>
           <a href="#turnaround">360°结构</a>
           <a href="#expressions">表情与动作</a>
+          <a href="#animation">互动作品</a>
           <a href="#scenes">泡泡世界</a>
           <a href="#birthday-special">生日限定</a>
         </nav>
@@ -585,14 +589,14 @@
         <div class="eyebrow">琪琪 · 心愿泡泡修补员</div>
         <h1>琪<span>琪</span></h1>
         <p class="hero-lead">把每一种没说出口的小情绪，装进发光泡泡，修好，再送回需要它的人身边。</p>
-        <p class="hero-note">琪琪 IP 在线视觉资产馆 · 当前正式母版 v3 · 更新于 2026-07-31</p>
+        <p class="hero-note">琪琪 IP 在线视觉资产馆 · 当前正式母版 v3 · 更新于 2026-08-21</p>
         <a class="hero-special-link" href="#birthday-special">
           <span>2026 BIRTHDAY SPECIAL</span>
           <strong>下一站，愿望先给妈妈 →</strong>
         </a>
         <div class="stats">
-          <div class="stat"><strong>29</strong><span>图片与GIF资产</span></div>
-          <div class="stat"><strong>12+2</strong><span>静态表情 + 动态企划</span></div>
+          <div class="stat"><strong>30</strong><span>视觉与互动资产</span></div>
+          <div class="stat"><strong>12+3</strong><span>静态表情 + 动态企划</span></div>
           <div class="stat"><strong>8</strong><span>世界观主视觉与故事场景</span></div>
           <div class="stat"><strong>v3</strong><span>当前身份与材质母版</span></div>
         </div>
@@ -627,7 +631,7 @@
       <button class="filter-btn" data-filter="turnaround">360°与案板</button>
       <button class="filter-btn" data-filter="expression">表情包</button>
       <button class="filter-btn" data-filter="pose">动作 Pose</button>
-      <button class="filter-btn" data-filter="animation">动态贴纸</button>
+      <button class="filter-btn" data-filter="animation">动态与互动</button>
       <button class="filter-btn" data-filter="analysis">灵感分析</button>
       <button class="filter-btn" data-filter="scene">主视觉与场景</button>
       <button class="filter-btn" data-filter="birthday">妈妈生日限定</button>
@@ -748,10 +752,16 @@
 
     <section class="gallery-section" id="animation" data-category="animation">
       <div class="section-head">
-        <div><div class="section-kicker">05 / Motion Sticker</div><h2>动态表情包</h2></div>
-        <p>动态表情名称：<strong>挥手跳跃</strong>。琪琪原地上下跳跃，同时双臂向上挥舞；1.1秒，无限循环。</p>
+        <div><div class="section-kicker">05 / Motion & Interactive</div><h2>动态与互动作品</h2></div>
+        <p>从聊天用循环表情延伸到网页互动装置：挥手跳跃负责角色动作，永远跳动的心负责情绪氛围。</p>
       </div>
       <div class="grid">
+        <article class="asset-card full">
+          <a class="media-button media-landscape media-contain" href="heart.html" aria-label="进入互动作品：永远跳动的心">
+            <img src="forever-beating-heart-cover.png" alt="浅粉色三维粒子爱心悬浮于粒子光环上方" loading="lazy" decoding="async">
+          </a>
+          <div class="card-body"><div class="card-topline"><span class="pill red">互动艺术</span><span class="status">LIVE</span></div><h3>永远跳动的心</h3><p>浅粉粒子随呼吸缓慢放大与缩小，并在光环上方散开、回聚。支持拖动旋转、点击爆散和长按加速呼吸。</p><div class="meta-row"><span>3D WebGL</span><span>22,000 粒子</span><span>电脑 / 手机</span><span>实时互动</span></div><div class="fileline"><a href="heart.html">打开《永远跳动的心》</a></div></div>
+        </article>
         <article class="asset-card">
             <button class="media-button media-square media-contain js-lightbox" data-src="qiqi-wave-jump-sticker-v1.gif" data-title="动态表情：挥手跳跃（轻量版）">
               <img src="qiqi-wave-jump-sticker-v1.gif" alt="琪琪挥手跳跃动态表情轻量版" loading="lazy" decoding="async">
@@ -1027,10 +1037,10 @@
     </section>
 
     <section class="gallery-section" data-category="all">
-      <div class="section-head"><div><div class="section-kicker">Asset Index</div><h2>完整文件索引</h2></div><p>共29个已落盘图片/GIF文件。点击文件名可直接打开高清原图。</p></div>
+      <div class="section-head"><div><div class="section-kicker">Asset Index</div><h2>完整文件索引</h2></div><p>共30个核心视觉与互动资产。点击文件名可直接打开高清原图或互动作品。</p></div>
       <div class="index-box">
         <details>
-          <summary>展开全部 29 个文件</summary>
+          <summary>展开全部 30 个核心资产</summary>
           <div class="table-wrap">
             <table>
               <thead><tr><th>#</th><th>资产名称</th><th>文件</th><th>尺寸</th><th>分类</th></tr></thead>
@@ -1064,6 +1074,7 @@
                 <tr><td>27</td><td>生日故事02 · 月光发车</td><td><a href="qiqi-birthday-scene-moonlight-departure-v1.jpg" target="_blank"><code>qiqi-birthday-scene-moonlight-departure-v1.jpg</code></a></td><td>1856×2320</td><td>生日场景</td></tr>
                 <tr><td>28</td><td>生日故事03 · 穿过回忆云海</td><td><a href="qiqi-birthday-scene-memory-cloud-v1.jpg" target="_blank"><code>qiqi-birthday-scene-memory-cloud-v1.jpg</code></a></td><td>2816×1584</td><td>生日场景</td></tr>
                 <tr><td>29</td><td>生日限定包装与周边案板</td><td><a href="qiqi-birthday-packaging-merch-board-v1.jpg" target="_blank"><code>qiqi-birthday-packaging-merch-board-v1.jpg</code></a></td><td>2816×1584</td><td>生日产品</td></tr>
+                <tr><td>30</td><td>永远跳动的心 · 3D互动作品</td><td><a href="heart.html"><code>heart.html</code></a></td><td>响应式</td><td>互动艺术</td></tr>
               </tbody>
             </table>
           </div>
@@ -1072,8 +1083,8 @@
     </section>
 
     <footer class="footer">
-      <span>琪琪 IP视觉资产馆 · 在线视觉档案 · 角色身份基准：qiqi-master-v3-approved.jpg · 更新于 2026-07-31</span>
-      <span>妈妈生日特别限定已加入 · 当前用途：非商用概念设计 · clearance_status: not_checked</span>
+      <span>琪琪 IP视觉资产馆 · 在线视觉档案 · 角色身份基准：qiqi-master-v3-approved.jpg · 更新于 2026-08-21</span>
+      <span>妈妈生日特别限定与永远跳动的心已加入 · 当前用途：非商用概念设计 · clearance_status: not_checked</span>
     </footer>
   </main>
 

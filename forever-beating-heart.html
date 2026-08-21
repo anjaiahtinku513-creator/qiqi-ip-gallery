@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#05030a" />
+  <link rel="icon" href="data:," />
+  <title>永远跳动的心｜琪琪 IP 视觉资产馆</title>
+  <meta name="description" content="琪琪的浅粉色 3D 粒子互动作品：永远跳动的心。" />
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif;
+      background: #05030a;
+      color: #fff9fb;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 39%, rgba(76, 31, 61, .17), transparent 28%),
+        radial-gradient(circle at 50% 72%, rgba(44, 28, 54, .24), transparent 38%),
+        #05040a;
+    }
+
+    body { touch-action: none; user-select: none; }
+
+    #app,
+    #heart-canvas,
+    #vignette {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #heart-canvas {
+      display: block;
+      cursor: grab;
+      outline: none;
+    }
+
+    #heart-canvas:active { cursor: grabbing; }
+
+    #vignette {
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 48%, transparent 29%, rgba(5, 2, 10, .18) 66%, rgba(2, 1, 5, .76) 100%),
+        linear-gradient(to bottom, rgba(255, 255, 255, .018), transparent 20%, transparent 76%, rgba(0, 0, 0, .22));
+      mix-blend-mode: multiply;
+    }
+
+    .hud {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: max(22px, env(safe-area-inset-top)) max(22px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-left));
+      pointer-events: none;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: .2em;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: rgba(255, 242, 247, .72);
+      text-decoration: none;
+      pointer-events: auto;
+      width: fit-content;
+      transition: color .2s ease;
+    }
+
+    .brand:hover, .brand:focus-visible { color: #fff7fb; }
+
+    .brand::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: linear-gradient(90deg, #f7a8ca, rgba(247, 168, 202, .1));
+      box-shadow: 0 0 10px #f7a8ca;
+    }
+
+    .hint {
+      align-self: center;
+      margin-bottom: 4px;
+      padding: 8px 13px;
+      border: 1px solid rgba(255, 214, 228, .12);
+      border-radius: 999px;
+      background: rgba(13, 6, 18, .32);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .12);
+      backdrop-filter: blur(10px);
+      color: rgba(255, 239, 245, .62);
+      font-size: 12px;
+      letter-spacing: .08em;
+      opacity: 1;
+      transition: opacity .6s ease;
+    }
+
+    .hint.is-hidden { opacity: 0; }
+
+    .controls-toggle {
+      position: fixed;
+      top: max(20px, env(safe-area-inset-top));
+      right: max(20px, env(safe-area-inset-right));
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 221, 232, .14);
+      border-radius: 50%;
+      background: rgba(18, 7, 22, .42);
+      color: rgba(255, 242, 247, .82);
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, .22);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .controls-toggle:hover,
+    .controls-toggle:focus-visible {
+      transform: rotate(15deg) scale(1.04);
+      border-color: rgba(248, 171, 207, .48);
+      background: rgba(43, 10, 31, .58);
+      outline: none;
+    }
+
+    .controls-toggle svg { width: 19px; height: 19px; vertical-align: middle; }
+
+    .panel {
+      position: fixed;
+      z-index: 4;
+      top: calc(max(20px, env(safe-area-inset-top)) + 54px);
+      right: max(20px, env(safe-area-inset-right));
+      width: min(292px, calc(100vw - 40px));
+      padding: 17px 18px 18px;
+      border: 1px solid rgba(255, 222, 232, .13);
+      border-radius: 20px;
+      background: linear-gradient(155deg, rgba(29, 10, 27, .78), rgba(10, 5, 16, .74));
+      box-shadow: 0 18px 60px rgba(0, 0, 0, .3);
+      backdrop-filter: blur(18px) saturate(120%);
+      transform-origin: top right;
+      transition: opacity .22s ease, transform .22s ease, visibility .22s;
+    }
+
+    .panel[hidden] {
+      display: block;
+      opacity: 0;
+      transform: translateY(-8px) scale(.96);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .panel-title {
+      margin: 0 0 14px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .13em;
+      color: rgba(255, 246, 249, .88);
+    }
+
+    .control { margin-top: 13px; }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: rgba(255, 239, 245, .69);
+      font-size: 12px;
+    }
+
+    .value { color: rgba(255, 255, 255, .9); font-variant-numeric: tabular-nums; }
+
+    input[type="range"] {
+      width: 100%;
+      height: 22px;
+      margin: 4px 0 0;
+      accent-color: #f6a6cb;
+      cursor: pointer;
+    }
+
+    .switch-row { margin-top: 12px; }
+
+    .switch-row label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: rgba(255, 239, 245, .7);
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] { accent-color: #f6a6cb; }
+
+    .fallback {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 28px;
+      text-align: center;
+      color: rgba(255, 241, 246, .78);
+      background: #08040d;
+    }
+
+    @media (max-width: 540px) {
+      .hud { padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+      .brand { font-size: 10px; }
+      .hint { font-size: 10px; }
+      .controls-toggle { top: max(14px, env(safe-area-inset-top)); right: max(14px, env(safe-area-inset-right)); }
+      .panel { top: calc(max(14px, env(safe-area-inset-top)) + 52px); right: max(14px, env(safe-area-inset-right)); width: min(282px, calc(100vw - 28px)); max-height: calc(100dvh - 84px); overflow-y: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hint, .panel, .controls-toggle { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main id="app" aria-label="琪琪互动作品：永远跳动的心">
+    <canvas id="heart-canvas" tabindex="0" aria-label="拖动旋转爱心，点击触发粒子爆散"></canvas>
+    <div id="vignette" aria-hidden="true"></div>
+
+    <div class="hud">
+      <a class="brand" href="index.html" aria-label="返回琪琪 IP 视觉资产馆">QIQI · 永远跳动的心</a>
+      <div id="hint" class="hint">拖动旋转 · 点击爆散 · 长按加速呼吸</div>
+    </div>
+
+    <button id="controls-toggle" class="controls-toggle" type="button" aria-label="打开效果设置" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 5v4M8 15v4" />
+      </svg>
+    </button>
+
+    <section id="controls" class="panel" aria-label="效果设置" hidden>
+      <h2 class="panel-title">呼吸参数</h2>
+      <div class="control">
+        <div class="control-row"><label for="speed">呼吸周期</label><span id="speed-value" class="value">5.8 秒</span></div>
+        <input id="speed" type="range" min="3.8" max="8" value="5.8" step="0.1" />
+      </div>
+      <div class="control">
+        <div class="control-row"><label for="strength">呼吸幅度</label><span id="strength-value" class="value">75%</span></div>
+        <input id="strength" type="range" min="35" max="120" value="75" step="1" />
+      </div>
+      <div class="control">
+        <div class="control-row"><label for="warmth">珍珠高光</label><span id="warmth-value" class="value">22%</span></div>
+        <input id="warmth" type="range" min="0" max="100" value="22" step="1" />
+      </div>
+      <div class="switch-row">
+        <label for="rotate"><span>自动旋转</span><input id="rotate" type="checkbox" checked /></label>
+      </div>
+      <div class="switch-row">
+        <label for="trail"><span>底部粒子光环</span><input id="trail" type="checkbox" checked /></label>
+      </div>
+    </section>
+
+    <div id="fallback" class="fallback" role="status">当前浏览器未能启动 WebGL。请使用最新版 Chrome、Edge 或 Safari 打开。</div>
+  </main>
+
+  <script type="module">
+    import * as THREE from "./three.module.js";
+
+    const canvas = document.getElementById("heart-canvas");
+    const fallback = document.getElementById("fallback");
+    const hint = document.getElementById("hint");
+    const panel = document.getElementById("controls");
+    const toggle = document.getElementById("controls-toggle");
+    const speedInput = document.getElementById("speed");
+    const strengthInput = document.getElementById("strength");
+    const warmthInput = document.getElementById("warmth");
+    const rotateInput = document.getElementById("rotate");
+    const trailInput = document.getElementById("trail");
+    const speedValue = document.getElementById("speed-value");
+    const strengthValue = document.getElementById("strength-value");
+    const warmthValue = document.getElementById("warmth-value");
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const mobile = matchMedia("(max-width: 720px), (pointer: coarse)").matches;
+    const lowPower = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    const previewTimeValue = new URLSearchParams(location.search).get("previewTime");
+    const fixedPreviewTime = previewTimeValue === null ? null : Number(previewTimeValue);
+    // More particles, distributed with a low-discrepancy sequence for even coverage.
+    const particleCount = reduceMotion ? 8800 : mobile ? (lowPower ? 10300 : 13800) : 22000;
+    const dustCount = reduceMotion ? 260 : mobile ? 720 : 1320;
+
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: "high-performance" });
+    } catch (error) {
+      fallback.style.display = "grid";
+      throw error;
+    }
+
+    renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.55 : 1.85));
+    renderer.setSize(innerWidth, innerHeight, false);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setClearColor(0x000000, 0);
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x06030b, 0.034);
+
+    const camera = new THREE.PerspectiveCamera(43, innerWidth / innerHeight, 0.1, 100);
+    camera.position.set(0, 0.05, mobile ? 14.8 : 11.4);
+
+    function applyResponsiveView() {
+      const portraitPhone = innerWidth < 560 && innerHeight > innerWidth;
+      camera.fov = portraitPhone ? 51 : 43;
+      camera.position.z = portraitPhone ? 15.8 : mobile ? 13.7 : 11.4;
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+    }
+    applyResponsiveView();
+
+    const heartGroup = new THREE.Group();
+    heartGroup.rotation.set(-0.03, -0.33, 0);
+    heartGroup.scale.setScalar(.72);
+    scene.add(heartGroup);
+
+    const particleVertex = `
+      precision highp float;
+      uniform float uTime;
+      uniform float uBeat;
+      uniform float uScatter;
+      uniform float uGather;
+      uniform float uPointScale;
+      uniform float uPress;
+      uniform float uCycleBurst;
+      uniform float uCycleVisibility;
+      attribute vec3 aTarget;
+      attribute vec3 aScatter;
+      attribute float aSeed;
+      attribute float aSize;
+      attribute float aCore;
+      varying float vAlpha;
+      varying float vCore;
+      varying float vTwinkle;
+
+      void main() {
+        float phase = aSeed * 6.2831853;
+        vec3 targetDir = normalize(aTarget + vec3(0.0001));
+        float ripple = sin(uTime * 1.18 + phase + length(aTarget.xy) * 1.35);
+        float surfaceDrift = (0.018 + 0.024 * aSeed) * ripple;
+        vec3 pos = aTarget * (1.0 + uBeat * (0.012 + 0.006 * aCore));
+        pos += targetDir * surfaceDrift;
+        pos += vec3(
+          sin(uTime * 0.72 + phase),
+          cos(uTime * 0.61 + phase * 1.31),
+          sin(uTime * 0.53 + phase * 0.77)
+        ) * 0.014;
+        pos.y += uBeat * 0.028 + uPress * 0.045;
+
+        vec3 assembled = mix(aScatter, pos, uGather);
+        assembled += aScatter * uScatter * (0.52 + aSeed * 0.72);
+        assembled.y += uScatter * (0.18 + aSeed * 0.12);
+        vec3 looseDir = normalize(aScatter + vec3(0.0001));
+        assembled += targetDir * uCycleBurst * (0.36 + 0.58 * aSeed);
+        assembled += looseDir * uCycleBurst * (0.18 + 0.38 * aSeed);
+        assembled.y *= 1.0 - uCycleBurst * 0.28;
+        assembled.y -= uCycleBurst * (0.16 + 0.18 * aSeed);
+
+        vec4 mvPosition = modelViewMatrix * vec4(assembled, 1.0);
+        gl_Position = projectionMatrix * mvPosition;
+        gl_PointSize = aSize * uPointScale * (34.0 / max(1.0, -mvPosition.z));
+        vAlpha = smoothstep(0.0, 0.18, uGather) * (0.72 + 0.28 * aSeed) * uCycleVisibility;
+        vCore = aCore;
+        vTwinkle = 0.72 + 0.28 * sin(uTime * (1.7 + aSeed) + phase);
+      }
+    `;
+
+    const particleFragment = `
+      precision highp float;
+      uniform vec3 uOuterColor;
+      uniform vec3 uInnerColor;
+      uniform vec3 uCoreColor;
+      uniform float uWarmth;
+      varying float vAlpha;
+      varying float vCore;
+      varying float vTwinkle;
+
+      void main() {
+        vec2 p = gl_PointCoord - 0.5;
+        float dist = length(p);
+        if (dist > 0.5) discard;
+        float glow = exp(-dist * 7.2);
+        float body = 1.0 - smoothstep(0.10, 0.50, dist);
+        float coreMix = smoothstep(0.24, 0.98, vCore) * uWarmth;
+        vec3 base = mix(uOuterColor, uInnerColor, 0.28 + 0.42 * vCore);
+        base = mix(base, uCoreColor, coreMix * 0.38);
+        vec3 color = base * (0.94 + vTwinkle * 0.55) + uCoreColor * glow * 0.68;
+        float alpha = clamp((body * 0.62 + glow * 0.62) * vAlpha, 0.0, 0.96);
+        gl_FragColor = vec4(color, alpha);
+      }
+    `;
+
+    function mulberry32(seed) {
+      return function random() {
+        let t = seed += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+
+    const random = mulberry32(0x51495149);
+
+    function randomGaussian() {
+      const u = Math.max(1e-7, random());
+      const v = Math.max(1e-7, random());
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function halton(index, base) {
+      let result = 0;
+      let fraction = 1 / base;
+      while (index > 0) {
+        result += fraction * (index % base);
+        index = Math.floor(index / base);
+        fraction /= base;
+      }
+      return result;
+    }
+
+    let heartSequence = 1;
+
+    function heartPoint() {
+      // A Halton sequence avoids random holes in the centre and upper lobes.
+      // Only a small extra contour layer is retained to keep the silhouette crisp.
+      const favorSurface = random() < .10;
+      let x = 0;
+      let y = 0;
+      let field = 1;
+      do {
+        const sequence = heartSequence++;
+        x = ((halton(sequence, 2) + .173) % 1) * 2.5 - 1.25;
+        y = ((halton(sequence, 3) + .419) % 1) * 2.5 - 1.15;
+        const q = x * x + y * y - 1;
+        field = q * q * q - x * x * y * y * y;
+      } while (field > 0 || (favorSurface && field < -.10));
+
+      const core = THREE.MathUtils.clamp(-field / 0.72, 0, 1);
+      const thickness = 0.055 + 0.48 * Math.pow(core, .42);
+      const z = THREE.MathUtils.clamp(randomGaussian(), -2.2, 2.2) * thickness;
+      return [x * 3.0, y * 3.0 - 0.12, z, core];
+    }
+
+    const positions = new Float32Array(particleCount * 3);
+    const targets = new Float32Array(particleCount * 3);
+    const scatters = new Float32Array(particleCount * 3);
+    const seeds = new Float32Array(particleCount);
+    const sizes = new Float32Array(particleCount);
+    const cores = new Float32Array(particleCount);
+
+    for (let i = 0; i < particleCount; i++) {
+      const [x, y, z, core] = heartPoint();
+      const i3 = i * 3;
+      targets[i3] = x;
+      targets[i3 + 1] = y;
+      targets[i3 + 2] = z;
+
+      const radius = 8 + random() * 13;
+      const phi = Math.acos(2 * random() - 1);
+      const theta = random() * Math.PI * 2;
+      scatters[i3] = Math.sin(phi) * Math.cos(theta) * radius;
+      scatters[i3 + 1] = Math.cos(phi) * radius;
+      scatters[i3 + 2] = Math.sin(phi) * Math.sin(theta) * radius;
+      positions[i3] = scatters[i3];
+      positions[i3 + 1] = scatters[i3 + 1];
+      positions[i3 + 2] = scatters[i3 + 2];
+      seeds[i] = random();
+      sizes[i] = 0.45 + random() * (mobile ? 0.92 : 0.72) + core * 0.06;
+      cores[i] = core;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("aTarget", new THREE.BufferAttribute(targets, 3));
+    geometry.setAttribute("aScatter", new THREE.BufferAttribute(scatters, 3));
+    geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+    geometry.setAttribute("aSize", new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute("aCore", new THREE.BufferAttribute(cores, 1));
+    geometry.computeBoundingSphere();
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uBeat: { value: 0 },
+      uScatter: { value: 0 },
+      uGather: { value: reduceMotion ? 1 : 0 },
+      uPointScale: { value: mobile ? 1.24 : 1.0 },
+      uPress: { value: 0 },
+      uCycleBurst: { value: 0 },
+      uCycleVisibility: { value: 1 },
+      uOuterColor: { value: new THREE.Color("#f7a7cb") },
+      uInnerColor: { value: new THREE.Color("#ffdeeb") },
+      uCoreColor: { value: new THREE.Color("#ffffff") },
+      uWarmth: { value: 0.22 }
+    };
+
+    const material = new THREE.ShaderMaterial({
+      uniforms,
+      vertexShader: particleVertex,
+      fragmentShader: particleFragment,
+      transparent: true,
+      depthWrite: false,
+      depthTest: true,
+      blending: THREE.AdditiveBlending
+    });
+
+    const heart = new THREE.Points(geometry, material);
+    heart.frustumCulled = false;
+    heartGroup.add(heart);
+
+    // A restrained rose aura keeps the volume readable without a solid core.
+    const aura = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 28, 20),
+      new THREE.MeshBasicMaterial({ color: 0xd979a6, transparent: true, opacity: 0.022, blending: THREE.AdditiveBlending, depthWrite: false })
+    );
+    aura.scale.set(1.55, 1.75, .7);
+    aura.position.y = 0.22;
+    heartGroup.add(aura);
+
+    const dustGeometry = new THREE.BufferGeometry();
+    const dustPositions = new Float32Array(dustCount * 3);
+    const dustSizes = new Float32Array(dustCount);
+    const dustSeeds = new Float32Array(dustCount);
+    for (let i = 0; i < dustCount; i++) {
+      const i3 = i * 3;
+      const ringParticle = random() < .78;
+      const radius = ringParticle
+        ? 3.25 + random() * 2.25
+        : .45 + Math.pow(random(), .68) * 3.15;
+      const angle = random() * Math.PI * 2;
+      dustPositions[i3] = Math.cos(angle) * radius;
+      dustPositions[i3 + 1] = -2.9 + (random() - .5) * .18;
+      dustPositions[i3 + 2] = Math.sin(angle) * radius * .29;
+      dustSizes[i] = .6 + random() * 1.5;
+      dustSeeds[i] = random();
+    }
+    dustGeometry.setAttribute("position", new THREE.BufferAttribute(dustPositions, 3));
+    dustGeometry.setAttribute("aSize", new THREE.BufferAttribute(dustSizes, 1));
+    dustGeometry.setAttribute("aSeed", new THREE.BufferAttribute(dustSeeds, 1));
+
+    const dustMaterial = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: { uTime: uniforms.uTime, uOpacity: { value: 1 }, uScale: { value: mobile ? 1.55 : 1.25 }, uLift: { value: 0 } },
+      vertexShader: `
+        uniform float uTime;
+        uniform float uScale;
+        uniform float uLift;
+        attribute float aSize;
+        attribute float aSeed;
+        varying float vFade;
+        void main() {
+          vec3 p = position;
+          float liftPhase = fract(aSeed + uTime * (.035 + aSeed * .035));
+          float column = smoothstep(.02, .22, uLift);
+          float riser = smoothstep(.74, .86, aSeed);
+          float ambientRiser = smoothstep(.91, .99, aSeed);
+          p.y += sin(uTime * .42 + position.x * .8) * .045;
+          p.x += cos(uTime * .27 + aSeed * 9.0) * .035;
+          p.y += ambientRiser * liftPhase * (1.35 + 1.25 * aSeed);
+          p.x *= 1.0 - ambientRiser * liftPhase * .72;
+          p.z *= 1.0 - ambientRiser * liftPhase * .62;
+          p.y += column * riser * liftPhase * (3.5 + 2.9 * aSeed);
+          p.x *= 1.0 - column * riser * liftPhase * .88;
+          p.z *= 1.0 - column * riser * liftPhase * .82;
+          vec4 mv = modelViewMatrix * vec4(p, 1.0);
+          gl_Position = projectionMatrix * mv;
+          gl_PointSize = aSize * uScale * (34.0 / max(1.0, -mv.z));
+          vFade = (.62 + .28 * sin(uTime * .52 + aSeed * 10.0)) * mix(1.0, .90, column * riser);
+        }
+      `,
+      fragmentShader: `
+        uniform float uOpacity;
+        varying float vFade;
+        void main() {
+          vec2 p = gl_PointCoord - .5;
+          float d = length(p);
+          if (d > .5) discard;
+          float a = min(1.0, exp(-d * 8.2) * vFade * uOpacity * 1.15);
+          vec3 rose = mix(vec3(.98, .72, .84), vec3(1.0, .97, .99), .38);
+          gl_FragColor = vec4(rose, a);
+        }
+      `
+    });
+    const dust = new THREE.Points(dustGeometry, dustMaterial);
+    scene.add(dust);
+
+    const clock = new THREE.Clock();
+    let breathSeconds = Number(speedInput.value);
+    let breathStrength = Number(strengthInput.value) / 100;
+    let scatter = 0;
+    let scatterVelocity = 0;
+    let press = 0;
+    let gathering = reduceMotion ? 1 : 0;
+    let pointerDown = false;
+    let dragging = false;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let targetRotX = heartGroup.rotation.x;
+    let targetRotY = heartGroup.rotation.y;
+    let longPressTimer = 0;
+    let elapsedPress = 0;
+    let userInteracted = false;
+    let breathPhase = 0;
+
+    function smootherstep(value) {
+      const x = THREE.MathUtils.clamp(value, 0, 1);
+      return x * x * x * (x * (x * 6 - 15) + 10);
+    }
+
+    function breathEnvelope(phase) {
+      const p = phase - Math.floor(phase);
+      if (p < .42) return smootherstep(p / .42);              // inhale
+      if (p < .52) return 1;                                  // soft hold
+      if (p < .92) return 1 - smootherstep((p - .52) / .40); // exhale
+      return 0;                                                // rest
+    }
+
+    function triggerScatter(power = 1) {
+      scatter = Math.max(scatter, .02);
+      scatterVelocity = Math.max(scatterVelocity, 2.45 * power);
+      userInteracted = true;
+      hint.classList.add("is-hidden");
+    }
+
+    function updateControls() {
+      breathSeconds = Number(speedInput.value);
+      breathStrength = Number(strengthInput.value) / 100;
+      uniforms.uWarmth.value = Number(warmthInput.value) / 100;
+      speedValue.textContent = `${breathSeconds.toFixed(1)} 秒`;
+      strengthValue.textContent = `${strengthInput.value}%`;
+      warmthValue.textContent = `${warmthInput.value}%`;
+    }
+
+    [speedInput, strengthInput, warmthInput].forEach(input => input.addEventListener("input", updateControls));
+    updateControls();
+
+    toggle.addEventListener("click", event => {
+      event.stopPropagation();
+      const open = panel.hasAttribute("hidden");
+      if (open) panel.removeAttribute("hidden"); else panel.setAttribute("hidden", "");
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "关闭效果设置" : "打开效果设置");
+    });
+
+    panel.addEventListener("pointerdown", event => event.stopPropagation());
+    panel.addEventListener("click", event => event.stopPropagation());
+
+    canvas.addEventListener("pointerdown", event => {
+      pointerDown = true;
+      dragging = false;
+      pointerStartX = lastX = event.clientX;
+      pointerStartY = lastY = event.clientY;
+      elapsedPress = 0;
+      longPressTimer = performance.now();
+      canvas.setPointerCapture(event.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", event => {
+      if (!pointerDown) return;
+      const dx = event.clientX - lastX;
+      const dy = event.clientY - lastY;
+      if (Math.hypot(event.clientX - pointerStartX, event.clientY - pointerStartY) > 5) dragging = true;
+      if (dragging) {
+        targetRotY += dx * .006;
+        targetRotX = THREE.MathUtils.clamp(targetRotX + dy * .004, -.58, .58);
+        lastX = event.clientX;
+        lastY = event.clientY;
+        hint.classList.add("is-hidden");
+      }
+    });
+
+    function endPointer(event) {
+      if (!pointerDown) return;
+      const wasDragging = dragging;
+      pointerDown = false;
+      dragging = false;
+      press = 0;
+      if (!wasDragging && performance.now() - longPressTimer < 520) triggerScatter(1);
+      if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    }
+
+    canvas.addEventListener("pointerup", endPointer);
+    canvas.addEventListener("pointercancel", endPointer);
+
+    canvas.addEventListener("keydown", event => {
+      if (event.code === "Space" || event.code === "Enter") {
+        event.preventDefault();
+        triggerScatter(1);
+      }
+      if (event.code === "ArrowLeft") targetRotY -= .12;
+      if (event.code === "ArrowRight") targetRotY += .12;
+      if (event.code === "ArrowUp") targetRotX -= .08;
+      if (event.code === "ArrowDown") targetRotX += .08;
+    });
+
+    addEventListener("resize", () => {
+      applyResponsiveView();
+      renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.55 : 1.85));
+      renderer.setSize(innerWidth, innerHeight, false);
+    }, { passive: true });
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) clock.getDelta();
+    });
+
+    const startTime = performance.now();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (document.hidden) return;
+      const delta = Math.min(.04, clock.getDelta());
+      const liveTime = (performance.now() - startTime) / 1000;
+      const time = Number.isFinite(fixedPreviewTime) ? fixedPreviewTime : liveTime;
+      uniforms.uTime.value = time;
+
+      if (!reduceMotion) {
+        const intro = THREE.MathUtils.clamp((time - .18) / 1.75, 0, 1);
+        gathering = intro * intro * (3 - 2 * intro);
+      }
+      uniforms.uGather.value = gathering;
+
+      if (pointerDown && !dragging) {
+        elapsedPress = (performance.now() - longPressTimer) / 1000;
+        press = THREE.MathUtils.clamp((elapsedPress - .32) * 1.4, 0, 1);
+      } else {
+        press += (0 - press) * (1 - Math.exp(-delta * 8));
+      }
+      uniforms.uPress.value = press;
+
+      const effectiveBreathSeconds = breathSeconds / (1 + press * .48);
+      if (!Number.isFinite(fixedPreviewTime)) {
+        breathPhase = (breathPhase + delta / effectiveBreathSeconds) % 1;
+      }
+      const activeBreathPhase = Number.isFinite(fixedPreviewTime)
+        ? fixedPreviewTime / effectiveBreathSeconds
+        : breathPhase;
+      const breath = reduceMotion ? .5 : breathEnvelope(activeBreathPhase);
+      const breathAmount = breath * breathStrength;
+      uniforms.uBeat.value = breathAmount;
+
+      // Expand the whole volume as one chest-like breath, not as a sharp heartbeat.
+      const breathScale = 1 + breathAmount * .075;
+      heartGroup.scale.set(
+        .72 * breathScale,
+        .72 * (1 + breathAmount * .062),
+        .72 * (1 + breathAmount * .085)
+      );
+      aura.scale.set(
+        1.55 + breathAmount * .13,
+        1.75 + breathAmount * .15,
+        .70 + breathAmount * .08
+      );
+      const auraOpacity = .016 + breathAmount * .016 + press * .009;
+
+      // An 8.4 second breathing loop: suspend, loosen, dim, then rebuild from the halo.
+      const loopPhase = (time % 8.4) / 8.4;
+      let cycleVisibility = 1;
+      let cycleBurst = 0;
+      let lift = 0;
+      if (!reduceMotion && loopPhase > .50 && loopPhase < .67) {
+        const q = (loopPhase - .50) / .17;
+        const eased = q * q * (3 - 2 * q);
+        cycleVisibility = 1 - eased * .82;
+        cycleBurst = eased * .62;
+        lift = eased;
+      } else if (!reduceMotion && loopPhase >= .67 && loopPhase < .82) {
+        const q = (loopPhase - .67) / .15;
+        const eased = q * q * (3 - 2 * q);
+        cycleVisibility = .18 + eased * .82;
+        cycleBurst = .62 * (1 - eased);
+        lift = 1 - eased;
+      }
+      uniforms.uCycleVisibility.value = cycleVisibility;
+      uniforms.uCycleBurst.value = cycleBurst;
+      dustMaterial.uniforms.uLift.value = lift;
+      aura.material.opacity = auraOpacity * cycleVisibility;
+
+      if (scatterVelocity > .001 || scatter > .001) {
+        scatterVelocity += (-13.8 * scatter - 5.4 * scatterVelocity) * delta;
+        scatter += scatterVelocity * delta;
+        if (scatter < 0) { scatter = 0; scatterVelocity *= -.24; }
+      }
+      uniforms.uScatter.value = Math.max(0, scatter);
+
+      if (rotateInput.checked && !dragging && !reduceMotion) targetRotY += delta * .11;
+      heartGroup.rotation.x += (targetRotX - heartGroup.rotation.x) * (1 - Math.exp(-delta * 8));
+      heartGroup.rotation.y += (targetRotY - heartGroup.rotation.y) * (1 - Math.exp(-delta * 8));
+      heartGroup.rotation.z = Math.sin(time * .38) * .018;
+      heartGroup.position.y = 1.05 + Math.sin(time * .36) * .035 + breathAmount * .035;
+      dust.rotation.y = time * .008;
+      dust.rotation.z = Math.sin(time * .08) * .025;
+      dustMaterial.uniforms.uOpacity.value += ((trailInput.checked ? 1 : 0) - dustMaterial.uniforms.uOpacity.value) * (1 - Math.exp(-delta * 7));
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    setTimeout(() => {
+      if (!userInteracted) hint.classList.add("is-hidden");
+    }, 6200);
+  </script>
+</body>
+</html>
